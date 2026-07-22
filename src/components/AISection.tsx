@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Bot, Zap, Clock, Brain, MessageSquare, ArrowRight, Headphones, Building2, Landmark } from 'lucide-react';
+import { Bot, Zap, Clock, Brain, ArrowRight, Sprout, Users, ClipboardList, Mic, FlaskConical, CloudSun } from 'lucide-react';
 
 interface Scenario {
   id: string;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   accent: string;
   accentRgb: string;
   agentName: string;
@@ -14,45 +14,45 @@ interface Scenario {
 
 const scenarios: Scenario[] = [
   {
-    id: 'atendimento',
-    label: 'Atendimento',
-    icon: Headphones,
-    accent: '#3b82f6',
-    accentRgb: '59, 130, 246',
-    agentName: 'Assistente de Suporte — v3.1',
+    id: 'manejo',
+    label: 'Manejo',
+    icon: Sprout,
+    accent: '#10b981',
+    accentRgb: '16, 185, 129',
+    agentName: 'Consultor Digital — Cultiva.ai',
     conversation: [
-      { role: 'user', text: 'Qual o prazo de entrega do meu pedido #8842?' },
-      { role: 'ai', text: 'Seu pedido #8842 está em trânsito! Previsão: amanhã, 14h-18h. Rastreamento atualizado há 15 minutos. Deseja receber notificações em tempo real?' },
-      { role: 'user', text: 'Sim! E posso alterar o endereço de entrega?' },
-      { role: 'ai', text: 'Notificações ativadas! Sobre o endereço: o pedido já saiu do CD, mas posso abrir redirecionamento via transportadora. Taxa: R$ 0. Deseja prosseguir?' },
+      { role: 'user', text: 'Minha manga tá com mancha preta na folha. O que pode ser?' },
+      { role: 'ai', text: 'Pelos sintomas, provável antracnose (Colletotrichum). Confirme se as manchas têm halo amarelado e se apareceram após as últimas chuvas. Me manda uma foto da folha que eu confirmo antes de indicar aplicação.' },
+      { role: 'user', text: 'Sim, tem o halo amarelo. Choveu semana passada.' },
+      { role: 'ai', text: 'Quadro compatível com antranose em pressão de umidade. Recomendo fungicida à base de cobre em intervalo de 7 dias e drenagem do talhão 3, que já teve o mesmo problema na safra passada. Registro a recomendação no histórico da fazenda?' },
     ],
   },
   {
-    id: 'gestao',
-    label: 'Gestão',
-    icon: Building2,
-    accent: '#f59e0b',
-    accentRgb: '245, 158, 11',
-    agentName: 'Agente de Processos — v2.8',
+    id: 'solo',
+    label: 'Solo & análise',
+    icon: FlaskConical,
+    accent: '#8b5cf6',
+    accentRgb: '139, 92, 246',
+    agentName: 'Consultor Digital — Análise de solo',
     conversation: [
-      { role: 'user', text: 'Quais processos estão pendentes de aprovação?' },
-      { role: 'ai', text: '3 processos pendentes: Compra de equipamentos (R$ 45K — aguarda diretor financeiro), Contratação TI — 2 vagas (aguarda RH), Renovação contrato Fornecedor X (vence em 5 dias). Envio alertas?' },
-      { role: 'user', text: 'Envie alertas e me dê o relatório de produtividade.' },
-      { role: 'ai', text: 'Alertas enviados! Relatório Q1: Produtividade geral +18%, tempo de resposta -32%, SLA 96.4%. Destaque: equipe comercial superou meta em 22%. Exportar PDF?' },
+      { role: 'user', text: 'Recebi a análise de solo do talhão 5. Manda ver.' },
+      { role: 'ai', text: 'Analisado. pH 5,2 (baixo para uva), V% 41, Ca e Mg abaixo do ideal, K adequado. O principal limitante é a acidez — está travando a absorção do que você já aplica.' },
+      { role: 'user', text: 'Quanto de calcário eu preciso?' },
+      { role: 'ai', text: 'Para elevar V% a 70: ~2,1 t/ha de calcário dolomítico (PRNT 85%), aplicado 60 a 90 dias antes do próximo ciclo. No seu talhão de 3,2 ha, são 6,7 t. Quer que eu lance como custo previsto na safra?' },
     ],
   },
   {
-    id: 'governo',
-    label: 'Gov & Jurídico',
-    icon: Landmark,
-    accent: '#06b6d4',
-    accentRgb: '6, 182, 212',
-    agentName: 'Consultor Normativo — v4.2',
+    id: 'cooperativa',
+    label: 'Cooperativa',
+    icon: Users,
+    accent: '#0d80f2',
+    accentRgb: '13, 128, 242',
+    agentName: 'Agente operacional — sob medida',
     conversation: [
-      { role: 'user', text: 'Qual artigo regulamenta licitações eletrônicas?' },
-      { role: 'ai', text: 'Lei 14.133/2021 (Nova Lei de Licitações), Art. 17, §2º. Complementado pelo Decreto 10.024/2019 para pregão eletrônico. Prazo mínimo: 8 dias úteis. Detalhes dos requisitos?' },
-      { role: 'user', text: 'Sim, e quais normas valem para pregão presencial?' },
-      { role: 'ai', text: 'Pregão presencial: Lei 14.133/2021, Art. 17 §1º + Decreto 3.555/2000 (vigente). Documentação: Art. 62-69. Comissão: mínimo 3 membros. Recurso: 3 dias úteis. Mostrar fluxo completo?' },
+      { role: 'user', text: 'Quais cooperados estão com aplicação atrasada nesta semana?' },
+      { role: 'ai', text: '7 cooperados com atividade vencida: 4 em aplicação foliar, 2 em irrigação e 1 em poda. Os talhões afetados somam 31 ha. Envio o aviso pelo WhatsApp de cada um?' },
+      { role: 'user', text: 'Envia. E me dá o consumo de insumos do mês.' },
+      { role: 'ai', text: 'Avisos enviados. Consumo de fevereiro: fertilizante 18,4 t (+12% vs. janeiro), defensivos 640 L, água 42 mil m³. O aumento vem de 3 propriedades que entraram em florada. Gero o relatório em PDF?' },
     ],
   },
 ];
@@ -143,20 +143,20 @@ const AISection: React.FC = () => {
   };
 
   const stats = [
-    { icon: Zap, value: '0.3s', label: 'Resposta' },
     { icon: Clock, value: '24/7', label: 'Disponível' },
-    { icon: Brain, value: '100%', label: 'Contextual' },
+    { icon: Mic, value: 'Voz', label: 'Sem digitar' },
+    { icon: Brain, value: 'Contexto', label: 'Da sua fazenda' },
   ];
 
   const useCases = [
-    { icon: MessageSquare, title: 'Atendimento', desc: 'Respostas instantâneas para clientes' },
-    { icon: Brain, title: 'RAG Inteligente', desc: 'Busca em documentos da empresa' },
-    { icon: Zap, title: 'Automação', desc: 'Workflows inteligentes e integrados' },
-    { icon: Bot, title: 'Agentes Custom', desc: 'IA especialista no seu negócio' },
+    { icon: Sprout, title: 'Manejo do dia a dia', desc: 'Pragas, doenças, dosagens e aplicações' },
+    { icon: FlaskConical, title: 'Solo e frutos', desc: 'Leitura de análises e recomendação prática' },
+    { icon: CloudSun, title: 'Clima e janela de aplicação', desc: 'O que fazer — e o que adiar' },
+    { icon: ClipboardList, title: 'Histórico que aprende', desc: 'Cada safra deixa a resposta mais precisa' },
   ];
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-[var(--blw-dark)] noise-overlay">
+    <section id="consultor-digital" className="relative py-24 md:py-32 overflow-hidden bg-[var(--blw-dark)] noise-overlay">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 12 }).map((_, i) => (
@@ -165,9 +165,9 @@ const AISection: React.FC = () => {
             className="absolute w-1 h-1 rounded-full"
             style={{
               backgroundColor: `rgba(${currentScenario.accentRgb}, 0.3)`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `blob-float ${15 + Math.random() * 10}s ease-in-out infinite ${Math.random() * 5}s`,
+              left: `${(i * 37) % 100}%`,
+              top: `${(i * 53) % 100}%`,
+              animation: `blob-float ${15 + (i % 5) * 2}s ease-in-out infinite ${(i % 4) * 1.2}s`,
             }}
           />
         ))}
@@ -176,7 +176,7 @@ const AISection: React.FC = () => {
         className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[120px] transition-colors duration-1000"
         style={{ backgroundColor: `rgba(${currentScenario.accentRgb}, 0.06)` }}
       />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[var(--blw-blue)]/5 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[var(--blw-accent-emerald)]/5 rounded-full blur-[120px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* Header + Tabs inline */}
@@ -188,16 +188,17 @@ const AISection: React.FC = () => {
           className="text-center mb-12"
         >
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-[var(--blw-accent-violet)] bg-[var(--blw-accent-violet)]/10 border border-[var(--blw-accent-violet)]/20 mb-4">
-            <Bot className="w-3.5 h-3.5" /> Inteligência Artificial
+            <Bot className="w-3.5 h-3.5" /> Cultiva.ai Consultoria
           </span>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-            Agentes de IA que{' '}
-            <span className="bg-gradient-to-r from-[var(--blw-accent-violet)] to-[var(--blw-blue)] bg-clip-text text-transparent">
-              trabalham por você
+          <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+            Um consultor agronômico{' '}
+            <span className="bg-gradient-to-r from-[var(--blw-accent-emerald)] to-[var(--blw-accent-violet)] bg-clip-text text-transparent">
+              no bolso do produtor
             </span>
           </h2>
-          <p className="mt-4 text-lg text-gray-400 max-w-xl mx-auto mb-8">
-            RAG, automação e agentes personalizados — respostas em segundos, disponíveis 24/7.
+          <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto mb-8">
+            IA com base agronômica científica e o histórico da própria propriedade — por voz ou chat,
+            em linguagem de campo. Não substitui o agrônomo: cobre os dias em que ele não está lá.
           </p>
 
           {/* Compact scenario tabs */}
@@ -326,7 +327,7 @@ const AISection: React.FC = () => {
                   className="text-center p-2.5 rounded-xl bg-white/[0.03] border border-white/5"
                 >
                   <s.icon className="w-3.5 h-3.5 mx-auto mb-1.5" style={{ color: currentScenario.accent }} />
-                  <div className="text-base font-bold text-white font-[Syne]">{s.value}</div>
+                  <div className="text-base font-bold text-white font-display">{s.value}</div>
                   <div className="text-[9px] text-gray-500 uppercase tracking-wider">{s.label}</div>
                 </motion.div>
               ))}
@@ -354,6 +355,20 @@ const AISection: React.FC = () => {
               </motion.div>
             ))}
 
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.55 }}
+              className="flex items-start gap-3 p-4 rounded-xl bg-[var(--blw-accent-violet)]/[0.06] border border-[var(--blw-accent-violet)]/15"
+            >
+              <Zap className="w-4 h-4 text-[var(--blw-accent-violet)] shrink-0 mt-0.5" />
+              <p className="text-xs text-gray-400 leading-relaxed">
+                A mesma tecnologia que roda no Cultiva.ai vira agente sob medida para cooperativas e empresas do
+                agro — treinado nos processos e documentos de cada operação.
+              </p>
+            </motion.div>
+
             <motion.button
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -362,7 +377,7 @@ const AISection: React.FC = () => {
               onClick={() => document.getElementById('cta-form')?.scrollIntoView({ behavior: 'smooth' })}
               className="group inline-flex items-center gap-2 text-sm font-semibold text-[var(--blw-accent-violet)] hover:underline mt-1"
             >
-              Quero meu agente de IA <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              Quero um agente de IA no meu agro <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </motion.button>
           </div>
         </div>

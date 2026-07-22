@@ -1,14 +1,16 @@
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import TrustedBy from './components/TrustedBy';
-import WebMobile from './components/WebMobile';
-import DesignSection from './components/DesignSection';
+import Partners from './components/Partners';
+import Solutions from './components/Solutions';
+import CultivaAI from './components/CultivaAI';
 import AISection from './components/AISection';
-import DataAgtech from './components/DataAgtech';
-import FiscalConsulting from './components/FiscalConsulting';
+import GuardSection from './components/GuardSection';
+import AgroSolutions from './components/AgroSolutions';
+import About from './components/About';
 import CTAForm from './components/CTAForm';
 import Footer from './components/Footer';
+import CookieConsent from './components/CookieConsent';
 
 const App: React.FC = () => {
   return (
@@ -16,15 +18,16 @@ const App: React.FC = () => {
       <div className="App bg-[var(--blw-bg-primary)] transition-colors duration-300">
         <Header />
         <Hero />
-        {/* TODO: descomentar quando tiver dados reais de portfólio */}
-        {/* <TrustedBy /> */}
-        <WebMobile />
-        <DesignSection />
+        <Partners />
+        <Solutions />
+        <CultivaAI />
         <AISection />
-        <DataAgtech />
-        <FiscalConsulting />
+        <GuardSection />
+        <AgroSolutions />
+        <About />
         <CTAForm />
         <Footer />
+        <CookieConsent />
       </div>
     </ThemeProvider>
   );

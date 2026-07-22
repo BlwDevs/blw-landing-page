@@ -7,7 +7,9 @@ import logoBlw from '../assets/logo-BLW.png';
 const navLinks = [
   { label: 'Início', id: 'hero' },
   { label: 'Soluções', id: 'services-start' },
-  { label: 'Sobre', id: 'trusted-by' },
+  { label: 'Cultiva.ai', id: 'cultiva-ai' },
+  { label: 'Sobre', id: 'sobre' },
+  { label: 'Parceiros', id: 'parceiros' },
   { label: 'Contato', id: 'cta-form' },
 ];
 
@@ -44,13 +46,13 @@ const Header: React.FC = () => {
             {/* Logo */}
             <button onClick={() => scrollTo('hero')} className="flex items-center gap-2 group">
               <img src={logoBlw} alt="BLW" className="h-9 w-auto" />
-              <span className="font-[Syne] font-bold text-lg text-[var(--blw-text)] dark:text-white tracking-tight hidden sm:block">
+              <span className="font-display font-bold text-lg text-[var(--blw-text)] dark:text-white tracking-tight hidden sm:block">
                 Build Lines to World
               </span>
             </button>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map(link => (
                 <button
                   key={link.id}
@@ -71,14 +73,14 @@ const Header: React.FC = () => {
 
               <button
                 onClick={() => scrollTo('contact-form')}
-                className="shimmer-btn ml-3 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--blw-blue)] hover:bg-[var(--blw-blue-dark)] rounded-xl transition-all duration-200"
+                className="shimmer-btn ml-3 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--blw-accent-emerald)] hover:bg-emerald-600 rounded-xl transition-all duration-200"
               >
-                Começar projeto
+                Falar com a BLW
               </button>
             </nav>
 
             {/* Mobile controls */}
-            <div className="flex items-center gap-2 md:hidden">
+            <div className="flex items-center gap-2 lg:hidden">
               <button
                 onClick={toggleDarkMode}
                 className="p-2.5 rounded-xl text-[var(--blw-gray-600)] dark:text-gray-400"
@@ -106,7 +108,7 @@ const Header: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
             onClick={() => setIsMenuOpen(false)}
           >
             <motion.div
@@ -129,9 +131,9 @@ const Header: React.FC = () => {
                 ))}
                 <button
                   onClick={() => scrollTo('contact-form')}
-                  className="mt-4 w-full py-3.5 text-center text-sm font-semibold text-white bg-[var(--blw-blue)] rounded-xl"
+                  className="mt-4 w-full py-3.5 text-center text-sm font-semibold text-white bg-[var(--blw-accent-emerald)] rounded-xl"
                 >
-                  Começar projeto
+                  Falar com a BLW
                 </button>
               </div>
             </motion.div>
