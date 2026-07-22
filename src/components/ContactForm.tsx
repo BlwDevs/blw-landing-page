@@ -2,10 +2,16 @@ import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useGoogleSheets, type FormSubmissionData } from '../services/googleSheets';
+import { useRdStation } from '../services/rdStation';
+
+/** Número comercial da BLW, no formato aceito pelo wa.me (DDI + DDD + número). */
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '5587988685309';
 
 interface ContactFormProps {
   variant?: 'light' | 'dark' | 'glass';
   compact?: boolean;
+  /** Nome da conversão na RD Station — identifica de qual formulário veio o lead. */
+  conversionIdentifier?: string;
 }
 
 interface FormData {
@@ -15,8 +21,13 @@ interface FormData {
   message: string;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = false }) => {
+const ContactForm: React.FC<ContactFormProps> = ({
+  variant = 'light',
+  compact = false,
+  conversionIdentifier = 'site-blw-formulario',
+}) => {
   const { submitToSheets, isConfigured } = useGoogleSheets();
+  const { submitToRdStation, isConfigured: isRdConfigured } = useRdStation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState<FormData>({
@@ -61,8 +72,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    const whatsappMessage = `Olá! Gostaria de solicitar uma solução:\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}\n\n*Mensagem:* ${formData.message}\n\nAguardo retorno!`;
-    const whatsappUrl = `https://wa.me/5587991965693?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappMessage = `Olá! Quero falar com a BLW sobre uma solução para o agro:\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}\n\n*Mensagem:* ${formData.message}\n\nAguardo retorno!`;
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
     // Google Sheets em background (não bloqueia o envio)
     if (isConfigured) {
@@ -73,6 +84,17 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
         message: formData.message
       };
       submitToSheets(submissionData).catch(() => {});
+    }
+
+    // RD Station em background — falha aqui não pode impedir o contato pelo WhatsApp
+    if (isRdConfigured) {
+      submitToRdStation({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        identifier: conversionIdentifier,
+      }).catch(err => console.error('[RD Station] conversão não registrada:', err));
     }
 
     window.open(whatsappUrl, '_blank');
@@ -101,8 +123,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
   return (
     <div className={cardClasses}>
       <div className="text-center mb-6">
-        <h3 className={`text-xl lg:text-2xl font-bold mb-1 font-[Syne] ${isDark || isGlass ? 'text-white' : 'text-[var(--blw-text)] dark:text-white'}`}>
-          Fale com um especialista
+        <h3 className={`text-xl lg:text-2xl font-bold mb-1 font-display ${isDark || isGlass ? 'text-white' : 'text-[var(--blw-text)] dark:text-white'}`}>
+          Fale com a BLW
         </h3>
         <p className={`text-sm ${isDark || isGlass ? 'text-gray-400' : 'text-[var(--blw-gray-400)] dark:text-gray-400'}`}>
           Resposta em menos de 24 horas
@@ -186,7 +208,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
               value={formData.message}
               onChange={handleInputChange}
               className={`${inputClasses} resize-none`}
-              placeholder="Conte-nos sobre seu projeto..."
+              placeholder="Conte da sua operação: propriedade, cooperativa, distrito de irrigação..."
             />
           </div>
 
@@ -204,7 +226,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="shimmer-btn w-full py-3.5 px-6 rounded-xl font-semibold text-white bg-[var(--blw-blue)] hover:bg-[var(--blw-blue-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
+            className="shimmer-btn w-full py-3.5 px-6 rounded-xl font-semibold text-white bg-[var(--blw-accent-emerald)] hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <>
@@ -214,7 +236,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ variant = 'light', compact = 
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                Solicitar proposta
+                Enviar mensagem
               </>
             )}
           </button>
