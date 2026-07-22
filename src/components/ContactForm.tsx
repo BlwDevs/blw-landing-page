@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Loader2, MessageCircle } from 'lucide-react';
 import { useGoogleSheets, type FormSubmissionData } from '../services/googleSheets';
 import { useRdStation } from '../services/rdStation';
 
@@ -30,6 +30,8 @@ const ContactForm: React.FC<ContactFormProps> = ({
   const { submitToRdStation, isConfigured: isRdConfigured } = useRdStation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  /** Distingue "faltou preencher" de "o envio falhou" — a saída para o usuário é diferente. */
+  const [errorKind, setErrorKind] = useState<'validacao' | 'envio'>('validacao');
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -62,9 +64,19 @@ const ContactForm: React.FC<ContactFormProps> = ({
     }
   };
 
+  /** Mensagem pronta para quem prefere falar direto pelo WhatsApp. */
+  const buildWhatsappUrl = (): string => {
+    const preenchido = formData.name.trim() || formData.message.trim();
+    const texto = preenchido
+      ? `Olá! Vim pelo site da BLW e quero falar sobre uma solução para o agro:\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}${formData.message ? `\n\n*Mensagem:* ${formData.message}` : ''}`
+      : 'Olá! Vim pelo site da BLW e quero falar sobre uma solução para o agro.';
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setErrorKind('validacao');
       setSubmitStatus('error');
       return;
     }
@@ -72,10 +84,8 @@ const ContactForm: React.FC<ContactFormProps> = ({
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    const whatsappMessage = `Olá! Quero falar com a BLW sobre uma solução para o agro:\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}\n\n*Mensagem:* ${formData.message}\n\nAguardo retorno!`;
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    const envios: Promise<unknown>[] = [];
 
-    // Google Sheets em background (não bloqueia o envio)
     if (isConfigured) {
       const submissionData: FormSubmissionData = {
         name: formData.name,
@@ -83,23 +93,48 @@ const ContactForm: React.FC<ContactFormProps> = ({
         phone: formData.phone,
         message: formData.message
       };
-      submitToSheets(submissionData).catch(() => {});
+      envios.push(submitToSheets(submissionData));
     }
 
-    // RD Station em background — falha aqui não pode impedir o contato pelo WhatsApp
     if (isRdConfigured) {
-      submitToRdStation({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: formData.message,
-        identifier: conversionIdentifier,
-      }).catch(err => console.error('[RD Station] conversão não registrada:', err));
+      envios.push(
+        submitToRdStation({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          identifier: conversionIdentifier,
+        })
+      );
     }
 
-    window.open(whatsappUrl, '_blank');
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    // Sem nenhum destino configurado o formulário seria um beco sem saída —
+    // nesse caso cai no WhatsApp para o contato não se perder.
+    if (envios.length === 0) {
+      window.open(buildWhatsappUrl(), '_blank');
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      setIsSubmitting(false);
+      return;
+    }
+
+    const resultados = await Promise.allSettled(envios);
+
+    resultados.forEach(r => {
+      if (r.status === 'rejected') console.error('[Formulário] envio falhou:', r.reason);
+    });
+
+    // Só declara sucesso se o lead chegou em pelo menos um destino.
+    const algumSucesso = resultados.some(r => r.status === 'fulfilled');
+
+    if (algumSucesso) {
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } else {
+      setErrorKind('envio');
+      setSubmitStatus('error');
+    }
+
     setIsSubmitting(false);
   };
 
@@ -144,11 +179,20 @@ const ContactForm: React.FC<ContactFormProps> = ({
             Mensagem enviada!
           </p>
           <p className={`text-sm text-center ${isDark || isGlass ? 'text-gray-400' : 'text-[var(--blw-gray-400)]'}`}>
-            Entraremos em contato em breve pelo WhatsApp.
+            Recebemos seu contato e respondemos em menos de 24 horas.
           </p>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--blw-accent-emerald)] hover:underline mt-1"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Prefere agilizar? Chame no WhatsApp
+          </a>
           <button
             onClick={() => setSubmitStatus('idle')}
-            className="text-[var(--blw-blue)] text-sm font-medium hover:underline mt-2"
+            className={`text-sm font-medium hover:underline ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}
           >
             Enviar outra mensagem
           </button>
@@ -216,10 +260,14 @@ const ContactForm: React.FC<ContactFormProps> = ({
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-red-500 text-sm"
+              className="flex items-start gap-2 text-red-500 text-sm"
             >
-              <AlertCircle className="w-4 h-4" />
-              <span>Preencha todos os campos obrigatórios.</span>
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+              <span>
+                {errorKind === 'validacao'
+                  ? 'Preencha todos os campos obrigatórios.'
+                  : 'Não conseguimos enviar agora. Tente de novo ou fale com a gente pelo WhatsApp abaixo.'}
+              </span>
             </motion.div>
           )}
 
@@ -240,6 +288,23 @@ const ContactForm: React.FC<ContactFormProps> = ({
               </>
             )}
           </button>
+
+          {/* Canal alternativo — quem prefere WhatsApp não precisa passar pelo formulário */}
+          <div className="flex items-center gap-3">
+            <div className={`flex-1 h-px ${isDark || isGlass ? 'bg-white/10' : 'bg-[var(--blw-gray-200)] dark:bg-[var(--blw-gray-800)]'}`} />
+            <span className={`text-xs ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}>ou</span>
+            <div className={`flex-1 h-px ${isDark || isGlass ? 'bg-white/10' : 'bg-[var(--blw-gray-200)] dark:bg-[var(--blw-gray-800)]'}`} />
+          </div>
+
+          <a
+            href={buildWhatsappUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-6 rounded-xl font-semibold text-[var(--blw-accent-emerald)] border-2 border-[var(--blw-accent-emerald)]/25 hover:border-[var(--blw-accent-emerald)]/50 hover:bg-[var(--blw-accent-emerald)]/5 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Falar no WhatsApp
+          </a>
 
           <p className={`text-xs text-center ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}>
             Seus dados estão seguros conosco.
