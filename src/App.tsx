@@ -1,9 +1,10 @@
 import Hero from './components/Hero';
-import Atuacao from './components/Atuacao';
-import Metodologia from './components/Metodologia';
-import Parceria from './components/Parceria';
-import Produtos from './components/Produtos';
-import QuemSomos from './components/QuemSomos';
+import Statement from './components/Statement';
+import Parcerias from './components/Parcerias';
+import Projetos from './components/Projetos';
+import IA from './components/IA';
+import Agro from './components/Agro';
+import Empresa from './components/Empresa';
 import Contato from './components/Contato';
 
 /** O miolo da página: as seções dentro do <main id="top">. */
@@ -11,11 +12,12 @@ const Sections: React.FC = () => {
   return (
     <>
       <Hero />
-      <Atuacao />
-      <Metodologia />
-      <Parceria />
-      <Produtos />
-      <QuemSomos />
+      <Statement />
+      <Parcerias />
+      <Projetos />
+      <IA />
+      <Agro />
+      <Empresa />
       <Contato />
     </>
   );

@@ -1,5 +1,5 @@
 import { BlwLogo } from './BlwLogo';
-import { CULTIVA_APP_URL } from '../constants';
+import { CULTIVA_SITE_URL } from '../constants';
 import CookieConsent from './CookieConsent';
 import bgContato from '../assets/backgrounds/bg-contato.webp';
 
@@ -65,17 +65,17 @@ const Footer: React.FC = () => {
               <h3>Atuação</h3>
               <ul>
                 <li>
-                  <a href="#atuacao">Projetos sob demanda</a>
+                  <a href="#parcerias">Parcerias com IA</a>
                 </li>
                 <li>
-                  <a href="#parceria">Parceria de execução</a>
+                  <a href="#projetos">Projetos sob demanda</a>
                 </li>
                 <li>
-                  <a href="#produtos">Produtos próprios</a>
+                  <a href="#ia">IA e visão computacional</a>
                 </li>
                 <li>
-                  <a href={CULTIVA_APP_URL} target="_blank" rel="noopener noreferrer">
-                    Baixar o app Cultiva.ai
+                  <a href={CULTIVA_SITE_URL} target="_blank" rel="noopener noreferrer">
+                    Conhecer o Cultiva.ai
                   </a>
                 </li>
               </ul>
@@ -84,10 +84,10 @@ const Footer: React.FC = () => {
               <h3>Empresa</h3>
               <ul>
                 <li>
-                  <a href="#metodologia">Metodologia</a>
+                  <a href="#empresa">Quem somos</a>
                 </li>
                 <li>
-                  <a href="#empresa">Quem somos</a>
+                  <a href="#agro">Agronegócio</a>
                 </li>
                 <li>
                   <a href="#contato">Contato</a>
@@ -98,10 +98,11 @@ const Footer: React.FC = () => {
           <div className="footer__legal">
             <span>&copy; {year} BLW Desenvolvimento</span>
             <details className="credits">
-              <summary>Nomes de produtos e logotipos são marcas de seus proprietários</summary>
+              <summary>Fotografias via Wikimedia Commons e USDA; logotipos são marcas de seus proprietários</summary>
               <p>
-                Logotipos de parceiros usados com as cores originais. Ícones de Flutter, Go e PostgreSQL: SVG Logos, de Gil
-                Barbara (CC0).
+                Mangas: B.navez, CC BY-SA 3.0. Rio São Francisco: Sued Sheila Sarmento, CC BY 2.0. Irrigação: USDA, domínio
+                público. Logotipos de parceiros com as cores originais. Ícones de Flutter, Go e PostgreSQL: SVG Logos, de
+                Gil Barbara (CC0).
               </p>
             </details>
             <CookieConsent />

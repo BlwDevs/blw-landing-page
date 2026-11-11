@@ -1,155 +1,128 @@
-# BLW — Planejamento da Landing Page (v3.1 · institucional, marca nova, taste-skill)
+# BLW — Planejamento da Landing Page (v3.2 · rodada 2: proposta comercial, agro e IA)
 
-> Atualizado em 2026-11-11. Substitui a v2 (posicionamento AgTech, Cultiva.ai como foco).
-> A página é da **empresa BLW Devs**: capta projetos sob demanda, parcerias de execução com startups
-> financiadas e conversas para conhecer a metodologia. O Cultiva.ai virou prova de produto.
-> Base: Guia de Identidade Visual BLW, o material interno da metodologia (E0–E8) e o taste-skill 2.5.1.
+> Atualizado em 2026-11-11. A página é da **empresa BLW Devs**: capta projetos sob demanda, parcerias de
+> execução com startups financiadas e produtores e empresas do Vale do São Francisco. A metodologia
+> sustenta a execução, mas **não é mais o assunto da página** (na rodada 1 ela ocupava o hero e uma seção
+> de duas telas). Base: Guia de Identidade Visual BLW, material interno da metodologia (E0–E8) e taste-skill 2.5.1.
 
 ## 1. Posicionamento
 
-**Categoria:** desenvolvimento de software sob medida com metodologia própria, mais parceria de
-execução para startups que captaram financiamento. Sede em Petrolina/PE.
+**Frase do hero:** "IA e software para [empresas. / startups. / agronegócio.]", com a última palavra viva.
 
-**Quem a página quer atrair:** (1) empresas, cooperativas e instituições com um projeto de software;
-(2) startups com edital, aceleração ou investimento que precisam de um time executor; (3) parceiros e
-quem só quer conhecer a BLW e a metodologia.
+**Quem a página quer atrair:** (1) startups com edital, aceleração ou investimento; (2) o agronegócio do
+Vale do São Francisco; (3) empresas tradicionais com um projeto de software ou de IA.
 
-**Ação única da página:** "Falar com a BLW" (formulário, WhatsApp ou e-mail). O formulário tem um
-campo de assunto; links da página pré-selecionam o assunto (`data-interesse`).
+**Ação única:** "Falar com a BLW" (formulário, WhatsApp ou e-mail). O formulário tem um campo de assunto;
+links da página pré-selecionam o assunto (`data-interesse`).
 
-**Honestidade:** nada de métrica ou cliente inventado. Credenciais usadas: parceira FACEPE (edital
-COMPET Soluções), aprovada no Inova Caatinga, incubada na INTECVASF, apoio SEBRAE, mais os 9 logos de
-parceiros enviados pela BLW.
+**Honestidade:** nada de métrica ou cliente inventado. Credenciais: parceira FACEPE, aprovada no Inova
+Caatinga, incubada na INTECVASF, apoio SEBRAE, e os 9 logos de parceiros enviados pela BLW.
 
-**Confidencialidade:** a apresentação de especificação feita para um cliente (E3) é confidencial. Foi
-usada só para entender a estrutura da metodologia. Nenhum nome, sistema, número ou tela dela entra na
-página. O exemplo de requisito e os projetos nas janelas são fictícios.
+**Confidencialidade:** a apresentação de especificação feita para um cliente (E3) é confidencial. Foi usada
+só para entender a metodologia. Nada dela entra na página; as janelas de interface são fictícias.
 
 ## 2. Identidade visual
 
-Fonte: `Guia - Identidade Visual BLW.pdf`. A marca é o cliente: violeta e Asap passam por cima das
-regras de paleta e fonte do taste-skill (ele proíbe violeta em paletas sorteadas, mas manda usar a cor
-do cliente por `start.mjs brand`).
+Fonte: `Guia - Identidade Visual BLW.pdf`. A marca é o cliente: violeta `#615afb` e Asap passam por cima das
+regras de paleta e fonte do taste-skill (`start.mjs brand`).
 
-| Cor | Hex | Uso |
-|---|---|---|
-| Violeta tecnológico | `#615afb` | Botão principal, símbolo |
-| Preto profundo | `#0c0b18` | Fundo da página |
-| Azul noturno | `#11112a` | (reservado) |
-| Cinza claro | `#e9e9ef` | (reservado) |
-| Chão aceso dos painéis | `#1d1b4e` | Violeta-noite atrás das janelas de interface |
-
-> O PDF do guia imprime `#615afb` para violeta, roxo tech e branco. O roxo tech (`#a147b8`, medido na
-> imagem) não é usado hoje. **Confirmar os hex com o designer.**
-
-- **Tipografia:** Asap 400 e 500 (Google Fonts). Títulos em 500 com tracking apertado, como manda o kit
-  para páginas de software. O 700/800 e a caixa alta do guia ficam de fora.
-- **Logo:** vetores em `src/assets/brand/paths.ts`, gerados a partir dos arquivos oficiais
-  (`BlwLogo` em `src/components/BlwLogo.tsx`). Versões permitidas: violeta + branco (fundo escuro),
-  violeta + preto (fundo claro), tudo branco sobre violeta. Não distorcer nem trocar as cores.
-- **Fundos:** as duas artes enviadas pela BLW. `bg-hero.webp` é o fundo do quadro do hero;
-  `bg-contato.webp` é a camada (`img.layer`) atrás do fechamento da página.
-- **Logos de parceiros:** `src/assets/partners/`, cores originais, num painel branco só. O agri.future hub
-  (letras brancas) ganha uma pílula escura dentro do painel.
-- **Tema:** escuro, sem alternância claro/escuro.
+- **Tipografia:** Asap 400 e 500, com eixo de largura (`wdth`) para as letras do hero. Títulos em 500.
+- **Logo:** vetores em `src/assets/brand/paths.ts` (`BlwLogo`). Não distorcer nem trocar cores.
+- **Artes de fundo (enviadas pela BLW, em `src/assets/backgrounds/`):** `bg-contato.webp` no hero e no
+  fechamento; `bg-hero.webp` no painel de atalhos do contato.
+- **Chão aceso dos painéis:** violeta-noite `#1d1b4e` (tokens `--ground-*` no `index.html`).
+- **Logos de parceiros:** `src/assets/partners/`, cores originais, numa faixa branca; o agri.future hub
+  (letras brancas) ganha uma pílula escura.
+- **Telas do Cultiva.ai:** `src/assets/app/`, recortadas (sem barra de status nem teclado).
 
 ## 3. Como a página é montada (taste-skill)
 
-A página segue o kit do taste-skill: `header.nav`, `main` com seções de uma ou duas telas e
-`footer.closing`, tudo direto no `<body>`.
+Tipo software. **Deal:** nav `nav-mega`, footer `footer-dark`, close `close-type`, botões `solid`.
+**Hero:** `word` (palavra viva). O deal sorteou `triptych`, que não serve ao pedido de uma frase só; a `word`
+é o hero que o próprio skill reserva para "uma palavra que troca". **Momento:** `word-highlight` na frase
+logo abaixo do hero (sorteado de novo sem os efeitos de ponteiro, porque o hero já tem o seu).
 
-- **Tipo:** software. **Deal:** hero `collage`, nav `nav-mega`, footer `footer-dark`, close `close-type`,
-  ritmo `space`, botões `solid` (o `tonal` sorteado dava 1,2:1 de contraste no fundo escuro).
-- **Momento:** `pinned-chapters` na Metodologia: a seção segura duas telas e abre uma fase por vez, com a
-  janela dela ao lado.
-- **Kit:** `public/assets/` é uma cópia do kit (system.css, layout, motion, moments, icons). **Não
-  editar.** O gate acusa `kit-edited`. Para atualizar, copiar de novo a pasta `assets` do skill.
-- **Scripts do kit:** `src/kit.ts` carrega `system.js`, `layout.js` e `motion.js` como `<script type="module">`
-  depois que o React desenha. Um `import()` passaria pelo Vite, que recusa arquivos de `public/`.
-- **Raízes do React:** `src/main.tsx` monta três raízes (`header#nav-root`, `main#top`,
-  `footer#closing-root`), porque o kit não admite um `div#root` no topo.
-- **CSS de página:** `src/index.css` só tem o que mora dentro dos visuais (janelas, cartões, parede de
-  logos). Botão, cartão, grade e tipografia são do kit. O Tailwind não é mais usado.
+- **Kit:** `public/assets/` é cópia do kit. **Não editar** (o gate acusa `kit-edited`). `src/kit.ts` carrega
+  `system.js`, `layout.js` e `motion.js` como `<script type="module">` depois que o React desenha.
+- **Raízes do React:** `src/main.tsx` monta `header#nav-root`, `main#top` e `footer#closing-root`.
+- **CSS de página:** `src/index.css`, só o que mora dentro dos visuais.
 
 ```
-[NAV]               Atuação · Metodologia (painel) · Parceria · Produtos · Empresa · Falar com a BLW
-[HERO]              "Software sob medida para empresas e startups" + janela com as 9 etapas
-[ATUAÇÃO]           2 frentes: projetos sob demanda · execução para startups
-[METODOLOGIA]       2 telas, pinned-chapters: 4 fases, uma janela por fase
-[PARCERIA]          Startups com financiamento: 4 passos + janela do ecossistema de fomento
-[PRODUTOS]          Cultiva.ai Gestão · Consultoria · Cultiva.Guard + Flutter, Go, PostgreSQL
-[EMPRESA]           Quem somos + 9 logos de parceiros + trajetória (janela)
-[CONTATO]           Formulário com assunto + WhatsApp e e-mail
-[FECHAMENTO]        Chamada + links + cookies e créditos (arte de fundo)
+[HERO]          "IA e software para empresas / startups / agronegócio" + fatos (sede, FACEPE, Inova Caatinga, Cultiva.ai)
+[FRASE]         word-highlight: desenvolvemos com quem opera (campo, empresa, startup)
+[PARCERIAS]     3 formatos de parceria com IA: startups · agronegócio · empresas
+[PROJETOS]      Projetos sob demanda + janela da metodologia (as 9 etapas, sem detalhe)
+[IA]            IA e visão computacional: visão, agentes, previsão/anomalias, voz
+[AGRO]          Gestão de propriedade rural: fotos do agro + telas do Cultiva.ai + link para o site
+[EMPRESA]       Quem somos · gráfico de marcos que sobe (animado) · carrossel de parceiros
+[CONTATO]       Formulário com assunto · painel com a arte da marca, WhatsApp e e-mail
+[FECHAMENTO]    Chamada + links + créditos e cookies (arte de fundo)
 ```
 
 ```
-src/main.tsx · src/kit.ts · src/App.tsx (as seções)
-src/components/  Header, Hero, Atuacao, Metodologia, Parceria, Produtos, QuemSomos, Contato,
+src/components/  Header, Hero, Statement, Parcerias, Projetos, IA, Agro, Empresa, Contato,
                  ContactForm, Footer, CookieConsent, BlwLogo
-src/data/methodology.ts   Fases e etapas (hero e Metodologia)
+src/data/methodology.ts   Fases e etapas (janela de Projetos)
 ```
 
-Removidos nesta versão: `Partners`, `Solutions`, `CultivaAI`, `AISection`, `GuardSection`,
-`AgroSolutions`, `About`, `CTAForm`, `ThemeToggle`, `ThemeContext` e o logo da marca antiga.
-Ficam no histórico do git (commit `8b07ce4`).
+Removidos na rodada 2: `Atuacao`, `Metodologia` (pinned-chapters), `Parceria`, `Produtos`, `QuemSomos`.
 
-## 4. Verificação (gate)
+## 4. Animações
+
+- **Hero:** a palavra troca a cada 2 s por duas rodadas, descansa e volta a tocar quando o ponteiro entra no
+  título (`data-ly-word`, do kit); as letras perto do ponteiro mudam de largura (`data-ly-letters="wdth"`).
+- **Frase:** acende palavra por palavra ao cruzar o meio da tela (momento `word-highlight`).
+- **Marcos:** gráfico em degraus no violeta da marca. Um ciclo de 3,2 s (`--m-cycle`): a linha se desenha,
+  cada nó acende e o quadro final descansa antes de recomeçar. Dentro de `[data-m-loop]`: o kit pausa fora da
+  tela, reinicia com o ponteiro, põe o botão de pausa e mostra o quadro final no celular e sem movimento.
+- **Carrossel de parceiros:** avança um logo a cada 3 s (5 por vez no desktop, 3 no tablet), pausa com o
+  ponteiro, com o foco e pelo botão. No celular e sem movimento vira uma grade parada.
+- **Linhas da marca:** as artes entram como fundo do hero, do painel de contato e do fechamento. Ainda não
+  há animação das linhas em si (ver pendências).
+
+## 5. Verificação (gate)
 
 ```bash
-# Com o servidor de desenvolvimento rodando (npm run dev), na raiz do projeto:
-node <skill>/scripts/gate.mjs --start http://localhost:5173/ --new --kind software \
-  --category "<categoria>" --primary "Falar com a BLW"
+# com `npm run dev` rodando, na raiz do projeto:
+node <skill>/scripts/gate.mjs --start http://localhost:5173/ --new --kind software --category "<categoria>" --primary "Falar com a BLW"
 node <skill>/scripts/gate.mjs
 ```
 
-- **Categoria usada:** a lista de substantivos que os títulos usam (`software sob medida: projetos,
-  sistemas, aplicativos, produtos, startups, metodologia em etapas, parceria de execução, propriedade
-  rural, campo, dúvidas, adutoras, falhas, engenheiros, conversa, parceiros`). O checador só conhece
-  substantivos em inglês; sem isso ele reprova todo título em português por "não nomear a coisa".
-- **Waiver (1 de 5):** `phone-number`, o link do WhatsApp comercial da própria BLW (canal principal).
-  Fica em `.taste-skill/waivers.json`, que não vai para o git.
-- **Estado do último run:** `GATE: PASS`. A checagem completa em 1440 e 390 só tem esse FAIL, já com
-  waiver. O layout passa sem achados em 1440, 1024, 820, 768 e 390.
-- **Build de produção:** `perf.mjs` passa, exceto "imagens abaixo da dobra sem lazy". O React cria as
-  imagens depois do carregamento e o `system.js` do kit troca `lazy` por `eager` depois do load, por
-  desenho do kit.
+- **Categoria:** a lista de substantivos que os títulos usam (o checador só conhece substantivos em inglês).
+  Ver o `--category` em uso: `software e IA sob medida: parcerias, projetos, sistemas, aplicativos, produtos,
+  startups, agronegócio, propriedade rural, gestão, inteligência artificial, visão computacional, metodologia,
+  empresa, empresas, engenheiros, conversa, parceiros, campo, adutoras, falhas`.
+- **Waivers (2 de 5), em `.taste-skill/waivers.json` (não vai para o git):**
+  1. `phone-number`: o link do WhatsApp comercial da BLW (canal principal).
+  2. `row-lines`: o carrossel horizontal de parceiros, pedido pelo cliente. O kit proíbe carrossel e faixa
+     que passa atrás de uma janela; o resto das regras de carrossel passa porque cada logo ocupa uma fatia
+     fixa e a faixa para sempre alinhada à fatia.
+- **Último run:** `GATE: PASS`. Layout sem achados em 1440, 1024, 820, 768 e 390. Build de produção:
+  `perf.mjs` passa, exceto "imagens abaixo da dobra sem lazy" (o React cria as imagens depois do load).
 
-## 5. Formulário
+## 6. Formulário e cookies
 
-Um formulário (`ContactForm.tsx`) no padrão `form.form` do kit: o `system.js` valida no envio, mostra o
-erro sob o campo e leva o foco ao primeiro erro. O envio é nosso e roda em background:
+Igual à v3.1: `ContactForm.tsx` no padrão `form.form` do kit; envia para Google Sheets e RD Station
+(`site-blw-contato-<assunto>`) e cai no WhatsApp se nenhum destino estiver configurado. O consentimento de
+cookies é um bloco no rodapé (o kit não admite aviso fixo): o loader da RD só entra depois do aceite.
+**Não ativar o RDCookieControl no painel da RD.**
 
-| Destino | Quando roda | Falha silenciosa? |
-|---|---|---|
-| Google Sheets | se `VITE_GOOGLE_SCRIPT_URL` estiver setada | sim |
-| RD Station | se `VITE_RD_STATION_API_KEY` estiver setada | erro vai só para o console |
-| WhatsApp (`window.open`) | só se nenhum outro destino estiver configurado | — |
+## 7. Pendências
 
-O assunto vai no começo da mensagem (`[Um projeto sob demanda] ...`) e no nome da conversão da RD:
-`site-blw-contato-<assunto>` (`conhecer-blw`, `projeto-sob-demanda`, `parceria-executora`, `outro`).
-Os identificadores antigos `site-blw-hero` e `site-blw-cta-final` deixaram de existir.
-
-**Cookies.** O kit não admite aviso fixo na tela. O consentimento (LGPD) agora é um bloco no rodapé,
-com as mesmas regras de antes: o loader da RD (`src/services/consent.ts`) só é injetado depois do
-aceite, e a escolha pode ser trocada ali a qualquer momento. Quem nunca abre o bloco nunca aceita, então
-a atribuição de origem de tráfego da RD tende a cair. **Não ativar o RDCookieControl no painel da RD.**
-
-## 6. Pendências
-
-- [ ] **Logo da IAris Tech está cortado à direita** no arquivo enviado ("s" e "h" saem pela borda).
-      Trocar `src/assets/partners/iaris-tech.png` pelo arquivo completo.
-- [ ] Confirmar com o designer o hex do roxo tech e do branco (o PDF imprime `#615afb` três vezes).
-- [ ] Revisar as descrições das etapas E0, E1, E2, E4, E5, E6 e E7 em `src/data/methodology.ts`
-      (só E3 e E8 seguem o texto original) e o texto de "parceria de execução".
-- [ ] Confirmar o status de cada credencial e o papel de cada logo da parede de parceiros.
-- [ ] Faltam logos de Inova Caatinga, INTECVASF e São Francisco Valley. Os logos enviados têm 100 px de
-      altura e ficam suaves em telas retina: pedir SVG ou PNG maior.
-- [ ] Decidir se o CNPJ volta ao rodapé. O taste-skill manda não imprimir número de registro; saiu junto
-      com o telefone e o e-mail impressos (os dois viraram botões).
-- [ ] `og:image` aponta para `/share.jpg` (relativo). Trocar por URL absoluta quando o domínio existir
-      (e ativar o `canonical`, hoje ausente).
-- [ ] Links legais (Privacidade / Termos): não existem as páginas. Publicar a política de privacidade.
-- [ ] Opcional: criar o campo personalizado da mensagem na RD e setar `VITE_RD_STATION_MESSAGE_FIELD`.
-- [ ] Limpeza: `framer-motion`, `lucide-react` e o Tailwind (`tailwind.config.js`, plugin do PostCSS) não
-      são mais usados. O ESLint não casa com `.tsx` (o lint não roda hoje).
+- [ ] **Vídeos do agro:** a mensagem citava "videozinhos", mas nenhum arquivo chegou. Se mandar, a seção Agro
+      pode ganhar um quadro de vídeo (o kit prevê um quadro com poster, sem som e com botão de pausa).
+- [ ] **Fotos do agro são provisórias** (Wikimedia Commons e USDA; créditos no rodapé): mangas de B.navez,
+      Rio São Francisco de Sued Sheila Sarmento, irrigação do USDA. Trocar por fotos da BLW ou de clientes do
+      Vale (mangas e uvas irrigadas de Petrolina e Juazeiro).
+- [ ] **Animação das linhas da marca:** hoje as artes são fundo estático. Dá para desenhar as linhas com
+      `stroke-dashoffset` (uma vez, na entrada do hero) ou trazer o momento `line-carries-colour` do kit.
+- [ ] Logo da IAris Tech está cortado à direita no arquivo enviado. Faltam logos de Inova Caatinga,
+      INTECVASF e São Francisco Valley; os enviados têm 100 px de altura.
+- [ ] Hex do roxo tech e do branco no PDF do guia (imprime `#615afb` três vezes).
+- [ ] Revisar os textos novos: formatos de parceria, "Automação com IA", as quatro linhas de IA (vieram do
+      site anterior) e os marcos do gráfico (vieram da trajetória anterior).
+- [ ] CNPJ, telefone e e-mail impressos saíram do rodapé (regra do skill). Decidir se voltam.
+- [ ] `og:image` aponta para `/share.jpg` (relativo): trocar por URL absoluta e ativar o `canonical` com o
+      domínio. O link "Baixar o app Cultiva.ai" (lojas) saiu do rodapé; hoje só há o link para o site.
+- [ ] Links legais (Privacidade / Termos): as páginas não existem.
+- [ ] Limpeza: `framer-motion`, `lucide-react` e o Tailwind não são mais usados.

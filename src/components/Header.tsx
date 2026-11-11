@@ -6,7 +6,7 @@ const Chev: React.FC = () => (
   </svg>
 );
 
-/** Miolo do header.nav do kit (nav-mega): "Metodologia" abre um painel; as outras palavras vão direto à seção. */
+/** Miolo do header.nav do kit (nav-mega): "Parcerias" abre um painel com um caminho para cada público. */
 const Header: React.FC = () => {
   return (
     <>
@@ -19,45 +19,45 @@ const Header: React.FC = () => {
         </a>
         <nav className="nav__links" aria-label="Principal">
           <div className="nav__item">
-            <a className="nav__link" href="#atuacao">
-              Atuação
-            </a>
-          </div>
-          <div className="nav__item">
-            <a className="nav__link" href="#metodologia">
-              Metodologia <Chev />
+            <a className="nav__link" href="#parcerias">
+              Parcerias <Chev />
             </a>
             <div className="nav__menu">
               <div className="wrap grid">
                 <div className="menu-col span-3">
-                  <p className="t-label">Entrar</p>
-                  <a href="#metodologia">
-                    Entrada<span>Contato, qualificação e abertura</span>
+                  <p className="t-label">Para quem</p>
+                  <a href="#parcerias">
+                    Startups<span>Execução do produto financiado</span>
                   </a>
-                  <a href="#metodologia">
-                    Entender<span>Diagnóstico e especificação</span>
+                  <a href="#agro">
+                    Agronegócio<span>Gestão rural e IA no campo</span>
                   </a>
                 </div>
                 <div className="menu-col span-3">
-                  <p className="t-label">Entregar</p>
-                  <a href="#metodologia">
-                    Construir<span>Arquitetura, código e testes</span>
+                  <p className="t-label">O que desenvolvemos</p>
+                  <a href="#projetos">
+                    Empresas<span>Sistemas sob demanda</span>
                   </a>
-                  <a href="#metodologia">
-                    Entregar<span>Operação e decisão do ciclo</span>
+                  <a href="#ia">
+                    IA aplicada<span>Agentes e visão computacional</span>
                   </a>
                 </div>
               </div>
             </div>
           </div>
           <div className="nav__item">
-            <a className="nav__link" href="#parceria">
-              Parceria
+            <a className="nav__link" href="#projetos">
+              Projetos
             </a>
           </div>
           <div className="nav__item">
-            <a className="nav__link" href="#produtos">
-              Produtos
+            <a className="nav__link" href="#ia">
+              IA
+            </a>
+          </div>
+          <div className="nav__item">
+            <a className="nav__link" href="#agro">
+              Agro
             </a>
           </div>
           <div className="nav__item">

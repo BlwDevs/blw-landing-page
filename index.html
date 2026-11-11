@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- tipo: software (empresa de desenvolvimento que também vende produtos próprios).
-     Deal do taste-skill: hero collage, nav-mega, footer-dark, close-type, rhythm space, buttons solid (o tonal dava 1,2:1 de contraste no fundo escuro: sorteado de novo);
-     momento: pinned-chapters na seção Metodologia. Cores e fonte são as do guia de identidade BLW
+     Deal do taste-skill: hero word (palavra viva), nav-mega, footer-dark, close-type, rhythm space, buttons solid (o tonal dava 1,2:1 de contraste no fundo escuro: sorteado de novo);
+     momento: word-highlight na frase logo abaixo do hero. Cores e fonte são as do guia de identidade BLW
      (violeta #615afb e Asap), passadas por `start.mjs brand`: a regra "nunca violeta" vale para
      paletas sorteadas, não para a marca do próprio cliente. -->
 <html lang="pt-BR" data-type="software" data-radius="soft" data-buttons="solid" data-motion>
@@ -9,11 +9,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>BLW Devs: software sob medida para empresas e startups</title>
+  <title>BLW Devs: IA e software sob medida para empresas, startups e agronegócio</title>
   <meta name="description"
-    content="Desenvolvimento sob demanda e execução do produto de startups com financiamento, em nove etapas validadas com o cliente. Petrolina, PE." />
+    content="Software e inteligência artificial sob medida para o agronegócio do Vale do São Francisco, empresas tradicionais e startups. Petrolina, PE." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="BLW Devs: software sob medida para empresas e startups" />
+  <meta property="og:title" content="BLW Devs: IA e software sob medida para empresas, startups e agronegócio" />
   <meta property="og:description"
     content="Projetos sob demanda e parceria de execução para startups financiadas, com metodologia própria de nove etapas." />
   <meta property="og:locale" content="pt_BR" />
@@ -26,7 +26,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Asap:wdth,wght@75..125,400..500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/system.css" />
   <link rel="stylesheet" href="/assets/ui/cards.css" />
   <link rel="stylesheet" href="/assets/motion/motion.css" />
@@ -50,11 +50,11 @@
   </style>
   <!-- entrada do hero (motion.md): as palavras esperam o motion.js em vez de piscar -->
   <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
-  <!-- momento pinned-chapters (moments.md): a guarda e o preload do núcleo e do momento sorteado -->
+  <!-- momento word-highlight (moments.md): a guarda e o preload do núcleo e do momento sorteado -->
   <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
   <link rel="modulepreload" href="/assets/moments/moments.js" />
   <link rel="modulepreload" href="/assets/moments/lib.js" />
-  <link rel="modulepreload" href="/assets/moments/pinned-chapters/moment.js" />
+  <link rel="modulepreload" href="/assets/moments/word-highlight/moment.js" />
 </head>
 
 <body>
