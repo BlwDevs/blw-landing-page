@@ -1,214 +1,140 @@
-@import url('https://fonts.googleapis.com/css2?family=Asap:wght@300;400;500;600;700;800&display=swap');
-@import "tailwindcss";
-
 /*
- * Identidade visual BLW Devs (Guia de Identidade Visual).
- * Violeta tecnológico é a cor principal; os tons escuros dão base e os neutros dão contraste.
- * O guia imprime o mesmo hex (#615afb) para três cores. O roxo tech (#a147b8) foi medido
- * direto no PDF — confirmar com o designer.
+ * CSS de página. O resto vem do kit do taste-skill (public/assets/system.css, layout.css, motion.css),
+ * ligado no index.html. Aqui entra só o que mora DENTRO dos visuais (janela do hero, cartões de interface,
+ * grade de logos) e o aviso de cookies. Nenhum botão, cartão, grade ou tipografia é redefinido.
+ * As janelas de interface são desenhadas à mão no mesmo molde dos demos do kit (layout/demo.css).
  */
-@theme {
-  --font-sans: 'Asap', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --color-ink: #0c0b18;       /* preto profundo */
-  --color-night: #11112a;     /* azul noturno */
-  --color-violet: #615afb;    /* violeta tecnológico */
-  --color-violet-300: #a7a3ff; /* violeta claro: rótulos e texto pequeno sobre fundo escuro */
-  --color-violet-700: #4338d6; /* violeta escuro: texto pequeno sobre fundo claro */
-  --color-purple: #a147b8;    /* roxo tech: só em brilhos e degradês */
-  --color-mist: #e9e9ef;      /* cinza claro */
+/* ---- logotipo: a marca é um SVG, a altura vem da barra ---- */
+.nav__brand { height: 28px; width: auto; display: block; }
+.footer .nav__brand { height: 32px; }
+
+/* ---- janela do hero e cartões de interface ---- */
+.d-win { background: #fff; color: #16181a; border-radius: 12px; overflow: hidden; font: 400 14px/1.4 var(--font-text);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .06), 0 30px 70px -30px rgb(0 0 0 / .6); }
+.d-win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; background: #f3f4f5; font-size: 13px; color: #5d6268; }
+.d-win__dots { display: flex; gap: 6px; }
+.d-win__dots i { width: 10px; height: 10px; border-radius: 50%; background: #dcdfe2; }
+.d-main { padding: 16px 18px; display: grid; align-content: start; gap: 12px; min-width: 0; }
+.d-main__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.d-main__head h4 { font: 500 16px/1.2 var(--font-text); letter-spacing: -0.01em; margin: 0; color: inherit; }
+.d-btn { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: 7px; background: #16181a; color: #fff; font-size: 13px; font-weight: 500; }
+.d-tabs { display: flex; gap: 4px; font-size: 13px; }
+.d-tabs span { padding: 4px 10px; border-radius: 99px; color: #6b7076; }
+.d-tabs span.is-on { background: rgb(0 0 0 / .06); color: #16181a; font-weight: 500; }
+.d-rows { display: grid; border-top: 1px solid rgb(0 0 0 / .07); }
+.d-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 112px; align-items: center; gap: 12px; padding: 9px 2px; border-bottom: 1px solid rgb(0 0 0 / .07); font-size: 13px; }
+.d-row b { display: block; font-weight: 500; color: #16181a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-row small { color: #6b7076; font-size: 13px; }
+.d-thumb { width: 36px; height: 36px; border-radius: 8px; background: #eef0ee; }
+.d-code { display: grid; place-items: center; font-size: 13px; font-weight: 500; color: #4338d6; background: rgb(97 90 251 / .12); }
+.d-chip { justify-self: end; display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px; border-radius: 99px; font-size: 13px; font-weight: 500; background: #e7f4ec; color: #17673f; white-space: nowrap; }
+.d-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.d-chip--low { background: #fdf0dc; color: #8a5300; }
+.d-chip--idle { background: #eceeed; color: #5d6268; }
+.d-card { background: #fff; color: #16181a; border-radius: 12px; padding: 14px 16px; font: 400 14px/1.4 var(--font-text); text-align: left;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / .06), 0 14px 32px -18px rgb(0 0 0 / .5); }
+.d-card h5 { margin: 0 0 4px; font: 500 14px/1.3 var(--font-text); }
+.d-card__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.d-note__line { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; color: #3d4247; border-top: 1px solid rgb(0 0 0 / .06); }
+.d-note__line:first-of-type { border-top: 0; }
+.d-note__line i { width: 18px; height: 18px; border-radius: 50%; flex: none; display: grid; place-items: center; background: #e7f4ec; color: #17673f; font-style: normal; font-size: 13px; font-weight: 500; }
+.d-note__line i.warn { background: #fdf0dc; color: #8a5300; }
+.d-note__line b { font-weight: 500; color: #16181a; }
+
+/* ---- hero: a arte da marca é o fundo do quadro; a janela corta na borda direita e na de baixo ---- */
+.hero__art { background-color: var(--p-surface); background-size: cover; background-position: 78% 50%; }
+.hero__art > .ly-piece--note { left: var(--s-6); bottom: var(--s-6); width: 300px; z-index: 2; }
+.hero__proof { font-size: var(--t-small); color: var(--muted); }
+.ly-piece--main .d-main { padding-right: var(--ly-cut-room); }
+@media (max-width: 1023px) { .hero__art > .ly-piece--note { left: var(--s-4); bottom: var(--s-4); width: 270px; } }
+/* no celular a janela mostra só as cinco primeiras etapas, inteiras, antes do corte do quadro */
+@media (max-width: 639px) {
+  .ly-piece--main .d-main__head, .ly-piece--main .d-tabs { display: none; }
+  .ly-piece--main .d-row:nth-child(n+3) { display: none; }
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    background-color: var(--color-ink);
-  }
+/* ---- cartões com janela embaixo (Atuação e Produtos): a mesma altura de painel por linha ---- */
+.open-cards .bw-panel { --p-h: 390px; }
+.open-cards .bw-panel--s { --p-h: 220px; }
+.open-cards .stage > .at-rise { --ax: 24px; --ay: 28px; --fit-max: 340px; }
+.open-cards .d-note__line:first-of-type { border-top: 1px solid rgb(0 0 0 / .06); }
+.open-cards > .card { grid-column: 1 / -1; }
+@media (min-width: 1024px) {
+  .open-cards > .card.span-6 { grid-column: auto / span 6; }
+  .open-cards > .card.span-4 { grid-column: auto / span 4; }
+}
+@media (max-width: 639px) { .open-cards .bw-panel, .open-cards .bw-panel--s { --p-h: 168px; } .open-cards .stage > .at-rise { --ay-sm: 16px; } }
 
-  body {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    line-height: 1.6;
-    color: #f1f1f8;
-    background-color: var(--color-ink);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
+/* ---- janela de cada fase da metodologia (momento pinned-chapters) ---- */
+.bw-phase { width: min(100%, 380px); }
+/* dentro do quadro do momento a janela da fase ocupa o quadro inteiro, com tipo maior */
+.mo-pc__visuals .bw-phase { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 32px 36px; font-size: 16px; border-radius: 0; box-shadow: none; }
+.mo-pc__visuals .bw-phase h5 { font-size: 18px; }
+.mo-pc__visuals .bw-phase .d-note__line { padding: 14px 0; font-size: 16px; }
+.mo-pc__visuals .bw-phase__out { margin-top: 18px; padding-top: 16px; font-size: 16px; }
+.mo-pc__visuals .bw-phase__out small { font-size: 14px; }
+.bw-phase__out { display: grid; gap: 2px; margin-top: 8px; padding-top: 10px; border-top: 1px solid rgb(0 0 0 / .08); font-size: 13px; }
+.bw-phase__out small { color: #6b7076; font-size: 13px; }
+.bw-phase__out b { font-weight: 500; color: #16181a; }
 
-  h1, h2, h3, h4 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    text-wrap: balance;
-  }
+/* ---- tecnologias dos produtos ---- */
+.bw-stack { margin-top: var(--s-6); display: grid; gap: var(--s-3); }
+.bw-stack ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4) var(--s-6); }
 
-  p { text-wrap: pretty; }
+/* ---- linha do tempo (janela) e parceiros ---- */
+.d-row--date { grid-template-columns: 76px minmax(0, 1fr); }
+.d-row--date b { white-space: normal; overflow: visible; }
+.d-when { font-size: 13px; font-weight: 500; color: #4338d6; }
+.bw-partners { display: grid; gap: var(--s-3); align-content: start; }
+/* logos dos parceiros: um painel branco só (o <ul>), sem caixa por logo; cada um mantém as cores originais */
+.bw-logos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: #fff; border-radius: var(--r-lg); }
+.bw-logos li { display: grid; place-items: center; height: 112px; padding: var(--s-4); }
+.bw-logos img { display: block; max-width: 100%; max-height: 56px; width: auto; height: auto; object-fit: contain; }
+.bw-logos li.is-dark img { padding: 10px 14px; border-radius: var(--r-sm); background: var(--p-bg); }
+@media (max-width: 639px) { .bw-logos li { height: 64px; padding: var(--s-2); } .bw-logos img { max-height: 36px; } }
+.d-win--roomy .d-row { padding-block: 20px; }
+#contato .d-win--roomy .d-row { padding-block: 28px; }
+.d-row--two { grid-template-columns: 36px minmax(0, 1fr); }
 
-  /* O header fixo não pode cobrir o topo da seção ao navegar por âncora */
-  section[id] { scroll-margin-top: 72px; }
-
-  ::selection {
-    background-color: rgba(97, 90, 251, 0.45);
-    color: #fff;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-violet-300);
-    outline-offset: 3px;
-    border-radius: 6px;
-  }
-  .on-light :focus-visible { outline-color: var(--color-violet-700); }
+/* ---- formulário: dois campos por linha de 640 em diante ---- */
+.bw-form { display: grid; gap: var(--s-4); }
+@media (min-width: 640px) {
+  .bw-form { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-4); }
+  .bw-form__wide { grid-column: 1 / -1; }
 }
 
-@layer components {
-  /* Mesma linha de conteúdo à esquerda e à direita em todas as seções */
-  .wrap {
-    width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-  @media (min-width: 640px) { .wrap { padding-inline: 2rem; } }
+/* ---- aviso de cookies: barra no pé até a pessoa decidir; o conteúdo fica nas linhas do .wrap ---- */
+.bw-cookie { position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; background: var(--p-surface); box-shadow: 0 -1px 0 rgb(255 255 255 / .12); }
+.bw-cookie__in { display: grid; gap: var(--s-3); padding-block: var(--s-4); }
+@media (min-width: 900px) { .bw-cookie__in { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--s-6); } }
 
-  .section-pad { padding-block: 5rem; }
-  @media (min-width: 1024px) { .section-pad { padding-block: 7rem; } }
-
-  /* Rótulo em caixa alta com espaçamento largo, como a assinatura "Building Lines Worldwide" */
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-violet-300);
-  }
-  .on-light .eyebrow { color: var(--color-violet-700); }
-
-  .h-display {
-    font-size: clamp(2.5rem, 1.4rem + 4.6vw, 4.25rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.04;
-  }
-  .h-section {
-    font-size: clamp(1.875rem, 1.2rem + 2.6vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-  }
-  .lead {
-    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
-    line-height: 1.6;
-    color: rgba(241, 241, 248, 0.72);
-  }
-  .on-light .lead { color: #444460; }
-
-  /* Botões: um par só (primário e secundário), sobem no hover e afundam no clique */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    min-height: 48px;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.2;
-    text-align: center;
-    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
-    cursor: pointer;
-  }
-  .btn:active { transform: translateY(1px) scale(0.985); }
-  .btn svg { transition: transform 0.18s ease; }
-  .btn:hover svg.arrow { transform: translateX(3px); }
-
-  .btn-primary { background-color: var(--color-violet); color: #fff; }
-  /* No hover escurece: o branco sobre #5148f0 mantém contraste acima de 5:1 */
-  .btn-primary:hover { background-color: #5148f0; transform: translateY(-2px); }
-  .btn-primary:active { transform: translateY(1px) scale(0.985); }
-
-  .btn-secondary {
-    color: #fff;
-    border: 1.5px solid rgba(255, 255, 255, 0.28);
-    background-color: transparent;
-  }
-  .btn-secondary:hover { border-color: rgba(255, 255, 255, 0.6); background-color: rgba(255, 255, 255, 0.06); }
-
-  .on-light .btn-secondary { color: var(--color-ink); border-color: rgba(12, 11, 24, 0.3); }
-  .on-light .btn-secondary:hover { border-color: var(--color-ink); background-color: rgba(12, 11, 24, 0.05); }
-
-  /* Cartão padrão da página: um estilo, um raio */
-  .card {
-    background-color: var(--color-night);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 16px;
-  }
-  .card-lift {
-    transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
-  }
-  .card-lift:hover {
-    transform: translateY(-2px);
-    border-color: rgba(97, 90, 251, 0.6);
-  }
-
-  /* Link de texto com sublinhado que se desenha */
-  .link-draw {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-size: 0% 1.5px;
-    background-position: 0 100%;
-    transition: background-size 0.25s ease;
-  }
-  .link-draw:hover, .link-draw:focus-visible { background-size: 100% 1.5px; }
-
-  .form-field {
-    width: 100%;
-    min-height: 48px;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    font: inherit;
-    font-size: 1rem;
-    color: #fff;
-    background-color: var(--color-ink);
-    border: 1.5px solid rgba(255, 255, 255, 0.16);
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-  }
-  .form-field::placeholder { color: rgba(241, 241, 248, 0.42); }
-  .form-field:hover { border-color: rgba(255, 255, 255, 0.3); }
-  .form-field:focus {
-    outline: none;
-    border-color: var(--color-violet);
-    box-shadow: 0 0 0 3px rgba(97, 90, 251, 0.3);
-  }
-  select.form-field {
-    appearance: none;
-    padding-right: 2.5rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a7a3ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-  }
-  select.form-field option { background-color: var(--color-night); color: #fff; }
+/* ---- alturas por tela: cada seção cabe em uma ou duas telas em qualquer largura (layout-v4.md, seção 2) ---- */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .open-cards .bw-panel { --p-h: 400px; }
+  .open-cards .bw-panel--s { --p-h: 260px; }
+}
+@media (max-width: 639px) {
+  #atuacao .bw-panel { --p-h: 128px; }
+  #produtos .bw-panel--s { --p-h: 290px; }
+  #parceria .d-win--roomy .d-row { padding-block: 52px; }
+  #contato .d-win--roomy .d-row { padding-block: 62px; }
+  #contato .bw-form { gap: var(--s-5); }
+  .footer__lede { display: none; }
+  .closing__links .footer__col { grid-column: span 6; }
+  /* logo e redes sociais na mesma linha: o rodapé cabe em uma tela */
+  .closing__links .stack-5 { display: flex; align-items: center; justify-content: space-between; }
+  .closing__cta .section-head { margin-bottom: var(--s-4); }
+  .closing__links .footer__legal { gap: var(--s-1); }
+  .ly-piece--main .d-row b { white-space: normal; }
+  #empresa .d-win .d-row:nth-child(n+3) { display: none; }
+  /* a metodologia vira quatro passos empilhados e fecha as duas telas do celular */
+  #metodologia .mo-pc__step { padding-bottom: 38px; }
 }
 
-/* Entrada do hero: acontece uma vez, ao carregar */
-@keyframes rise-in {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.enter { animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+/* ---- cookies no rodapé ---- */
+.bw-cookies .btn-row { margin-top: var(--s-3); }
 
-/* Linha da metodologia: desenha uma vez, quando a seção entra na tela */
-@keyframes draw-x {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  .enter { animation: none; opacity: 1; transform: none; }
-}
+/* o kit escreve "Credits" e "Hide" em inglês ao lado do resumo: a página é em português */
+.credits > summary::after { content: "Ver detalhes"; }
+.credits[open] > summary::after { content: "Fechar"; }

@@ -1,88 +1,77 @@
-import { ArrowRight } from 'lucide-react';
+import type { CSSProperties } from 'react';
 
 /** Como a metodologia se aplica a uma startup com financiamento. */
 const steps = [
-  {
-    phase: 'E0 a E2',
-    title: 'Lemos o plano',
-    text: 'Partimos do plano de trabalho do financiamento e do que a startup precisa entregar em cada marco.',
-  },
-  {
-    phase: 'E3',
-    title: 'Especificamos',
-    text: 'Escrevemos requisitos, critérios de aceite e um backlog priorizado pelos marcos.',
-  },
-  {
-    phase: 'E4 a E6',
-    title: 'Construímos e verificamos',
-    text: 'Entregas curtas, testadas contra os critérios de aceite e validadas com a startup.',
-  },
-  {
-    phase: 'E7 e E8',
-    title: 'Documentamos e decidimos',
-    text: 'Cada etapa deixa um registro rastreável, que ajuda na prestação de contas. No fim do ciclo decidimos o próximo passo.',
-  },
+  { name: 'Ler o plano', text: 'Partimos do plano de trabalho do financiamento.', value: 'E0 a E2' },
+  { name: 'Especificar', text: 'Requisitos e backlog priorizados pelos marcos.', value: 'E3' },
+  { name: 'Construir e verificar', text: 'Entregas curtas, testadas contra os critérios de aceite.', value: 'E4 a E6' },
+  { name: 'Registrar e decidir', text: 'Cada etapa deixa registro. No fim, decidimos o próximo ciclo.', value: 'E7 e E8' },
 ];
 
 const ecosystem = [
-  { name: 'FACEPE', detail: 'Edital COMPET Soluções', status: 'Parceira' },
-  { name: 'Inova Caatinga', detail: 'Programa de aceleração', status: 'Aprovada' },
-  { name: 'INTECVASF', detail: 'Incubadora no Vale do São Francisco', status: 'Incubada' },
-  { name: 'SEBRAE', detail: 'Capacitação e desenvolvimento empresarial', status: 'Apoio' },
+  { code: 'FA', name: 'FACEPE', detail: 'Edital COMPET Soluções', status: 'Parceira' },
+  { code: 'IC', name: 'Inova Caatinga', detail: 'Programa de aceleração', status: 'Aprovada' },
+  { code: 'IN', name: 'INTECVASF', detail: 'Incubadora no Vale do São Francisco', status: 'Incubada' },
+  { code: 'SE', name: 'SEBRAE', detail: 'Capacitação e desenvolvimento', status: 'Apoio' },
 ];
 
 const Parceria: React.FC = () => {
   return (
-    <section id="parceria" className="on-light section-pad bg-mist text-ink">
-      <div className="wrap grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <div>
-          <p className="eyebrow">Para startups com financiamento</p>
-          <h2 className="h-section mt-4 text-ink">Parceira de execução para quem captou recurso e precisa entregar</h2>
-          <p className="lead mt-5 max-w-xl">
-            Edital, aceleração ou investimento: o recurso chega com prazo, escopo e prestação de contas. A BLW entra
-            como o time que desenvolve o produto dentro desses limites.
-          </p>
-
-          <ol className="mt-10 space-y-7">
-            {steps.map((step, i) => (
-              <li key={step.title} className="grid grid-cols-[2.5rem_1fr] gap-4 border-t border-ink/12 pt-6">
-                <span className="text-2xl font-extrabold text-violet-700">0{i + 1}</span>
-                <div>
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 className="text-xl font-bold text-ink">{step.title}</h3>
-                    <span className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/50">{step.phase}</span>
-                  </div>
-                  <p className="mt-1.5 text-[1.0625rem] leading-relaxed text-ink/70">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          <a href="#contato" data-interesse="parceria-executora" className="btn btn-primary mt-10">
-            Propor uma parceria
-            <ArrowRight className="arrow h-4 w-4" aria-hidden="true" />
-          </a>
+    <section className="section" id="parceria" style={{ '--hm': 2 } as CSSProperties} aria-labelledby="parceria-h">
+      <div className="wrap">
+        <div className="section-head">
+          <h2 id="parceria-h">Parceria de execução para startups com financiamento</h2>
+          <p>O recurso chega com prazo e prestação de contas. A BLW desenvolve o produto dentro desses limites.</p>
         </div>
+        <div className="grid grid--top">
+          <div className="span-6 stack-6">
+            <ul className="rows">
+              {steps.map(step => (
+                <li key={step.name}>
+                  <span className="rows__name">{step.name}</span>
+                  <p>{step.text}</p>
+                  <span className="rows__value">{step.value}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="btn-row">
+              <a className="btn btn--secondary" href="#contato" data-interesse="parceria-executora">
+                Propor uma parceria
+              </a>
+            </div>
+          </div>
 
-        <aside className="self-start rounded-2xl border border-ink/10 bg-white p-6 shadow-[0_24px_60px_-30px_rgba(12,11,24,0.35)] sm:p-8 lg:sticky lg:top-28">
-          <p className="eyebrow">Já fazemos parte desse ecossistema</p>
-          <ul className="mt-6 divide-y divide-ink/10">
-            {ecosystem.map(item => (
-              <li key={item.name} className="flex items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
-                <div>
-                  <p className="text-lg font-bold text-ink">{item.name}</p>
-                  <p className="mt-0.5 text-[0.9375rem] text-ink/65">{item.detail}</p>
-                </div>
-                <span className="shrink-0 rounded-full bg-violet-700/10 px-3 py-1 text-xs font-semibold text-violet-700">
-                  {item.status}
+          <div
+            className="span-6 start-7"
+            role="img"
+            aria-label="Ecossistema de fomento da BLW: parceira da FACEPE, aprovada no Inova Caatinga, incubada na INTECVASF e com apoio do SEBRAE"
+          >
+            <div className="d-win d-win--roomy ui" aria-hidden="true">
+              <div className="d-win__bar">
+                <span className="d-win__dots">
+                  <i />
+                  <i />
+                  <i />
                 </span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 border-t border-ink/10 pt-5 text-[0.9375rem] leading-relaxed text-ink/65">
-            Também fazemos parte das redes AgriFuture Hub e São Francisco Valley.
-          </p>
-        </aside>
+                <span>BLW · Ecossistema de fomento</span>
+              </div>
+              <div className="d-main">
+                <div className="d-rows">
+                  {ecosystem.map(item => (
+                    <div className="d-row" key={item.name}>
+                      <span className="d-thumb d-code">{item.code}</span>
+                      <div>
+                        <b>{item.name}</b>
+                        <small>{item.detail}</small>
+                      </div>
+                      <span className="d-chip">{item.status}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

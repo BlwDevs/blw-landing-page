@@ -1,64 +1,90 @@
-import { ArrowRight, Blocks, Handshake, Package } from 'lucide-react';
-
-const arms = [
-  {
-    icon: Blocks,
-    title: 'Projetos sob demanda',
-    text: 'Sistemas de gestão, plataformas de processos, aplicativos e integrações feitos para a sua operação. Você traz o problema e nós levamos do diagnóstico à operação, nas nove etapas da metodologia.',
-    cta: 'Contar o meu projeto',
-    href: '#contato',
-    interesse: 'projeto-sob-demanda',
-  },
-  {
-    icon: Handshake,
-    title: 'Parceira executora de startups',
-    text: 'Sua startup captou recurso em edital, aceleração ou investimento? A BLW assume o desenvolvimento do produto dentro do escopo, do prazo e dos marcos do financiamento.',
-    cta: 'Ver como funciona',
-    href: '#parceria',
-  },
-  {
-    icon: Package,
-    title: 'Produtos próprios',
-    text: 'Criamos e mantemos produtos de IA para o agronegócio, como o Cultiva.ai, usado por produtores do Vale do São Francisco.',
-    cta: 'Conhecer os produtos',
-    href: '#produtos',
-  },
-];
-
+/** Duas frentes de trabalho. Cada cartão mostra, na janela, o que a BLW tem em mãos naquele tipo de trabalho. */
 const Atuacao: React.FC = () => {
   return (
-    <section id="atuacao" className="section-pad bg-ink">
+    <section className="section" id="atuacao" aria-labelledby="atuacao-h">
       <div className="wrap">
-        <div className="max-w-2xl">
-          <p className="eyebrow">Atuação</p>
-          <h2 className="h-section mt-4">Três formas de trabalhar com a BLW</h2>
-          <p className="lead mt-5">
-            Contrate um projeto, tenha a BLW como time de execução do seu produto ou conheça o que já construímos.
-          </p>
+        <div className="section-head">
+          <h2 id="atuacao-h">Projetos sob demanda e execução para startups</h2>
         </div>
-
-        <ul className="mt-12 grid gap-5 md:grid-cols-3">
-          {arms.map((arm, i) => (
-            <li key={arm.title} className="card flex flex-col p-7">
-              <div className="flex items-center justify-between">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet/20 text-violet-300">
-                  <arm.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <span className="text-sm font-semibold tracking-[0.16em] text-white/40">0{i + 1}</span>
+        <div className="grid open-cards">
+          <article className="card card--row card--open span-6">
+            <h3>Desenvolve o sistema que você precisa</h3>
+            <p>Sistemas de gestão, aplicativos e integrações feitos para a sua operação, do diagnóstico ao uso.</p>
+            <div
+              className="panel panel--inset bw-panel"
+              role="img"
+              aria-label="Escopo de um projeto sob demanda: sistema de gestão especificado, aplicativo em construção e integração a validar"
+            >
+              <div className="stage">
+                <div className="at-rise fit">
+                  <div className="d-card ui" aria-hidden="true">
+                    <div className="d-card__row">
+                      <h5>Escopo do projeto</h5>
+                      <span className="d-chip d-chip--low">Em andamento</span>
+                    </div>
+                    <div className="d-note__line">
+                      <i>✓</i>
+                      <span>
+                        <b>Sistema de gestão</b> especificado
+                      </span>
+                    </div>
+                    <div className="d-note__line">
+                      <i>✓</i>
+                      <span>
+                        <b>Aplicativo</b> em construção
+                      </span>
+                    </div>
+                    <div className="d-note__line">
+                      <i className="warn">!</i>
+                      <span>
+                        <b>Integração</b> a validar
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="mt-6 text-2xl font-bold">{arm.title}</h3>
-              <p className="mt-3 flex-1 text-[1.0625rem] leading-relaxed text-white/70">{arm.text}</p>
-              <a
-                href={arm.href}
-                data-interesse={arm.interesse}
-                className="link-draw mt-7 inline-flex min-h-[44px] w-fit items-center gap-2 font-semibold text-violet-300"
-              >
-                {arm.cta}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </article>
+
+          <article className="card card--row card--open span-6">
+            <h3>Executa o produto da sua startup</h3>
+            <p>Edital, aceleração ou investimento: desenvolvemos o produto dentro do escopo e do prazo.</p>
+            <div
+              className="panel panel--inset bw-panel"
+              role="img"
+              aria-label="Marcos de um financiamento: especificação entregue, piloto em uso e entrega prevista"
+            >
+              <div className="stage">
+                <div className="at-rise fit">
+                  <div className="d-card ui" aria-hidden="true">
+                    <div className="d-card__row">
+                      <h5>Marcos do financiamento</h5>
+                      <span className="d-chip">Em execução</span>
+                    </div>
+                    <div className="d-note__line">
+                      <i>✓</i>
+                      <span>
+                        <b>Marco 1</b> especificação entregue
+                      </span>
+                    </div>
+                    <div className="d-note__line">
+                      <i>✓</i>
+                      <span>
+                        <b>Marco 2</b> piloto em uso
+                      </span>
+                    </div>
+                    <div className="d-note__line">
+                      <i className="warn">!</i>
+                      <span>
+                        <b>Marco 3</b> entrega prevista
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );

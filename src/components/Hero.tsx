@@ -1,110 +1,121 @@
-import { ArrowRight } from 'lucide-react';
 import bgHero from '../assets/backgrounds/bg-hero.webp';
 import { phases } from '../data/methodology';
 
-/** Reconhecimentos e apoios reais da BLW. Rótulo + nome. */
-const proof = [
-  { label: 'Parceira', name: 'FACEPE' },
-  { label: 'Aprovada no', name: 'Inova Caatinga' },
-  { label: 'Incubada na', name: 'INTECVASF' },
-  { label: 'Apoio', name: 'SEBRAE' },
-];
+type State = 'ok' | 'wait' | 'idle';
 
+/** Estado de cada etapa na janela do hero: o projeto está na validação da especificação (E3). */
+const stateOf = (code: string): State => {
+  const n = Number(code.slice(1));
+  return n < 3 ? 'ok' : n === 3 ? 'wait' : 'idle';
+};
+
+const LABEL: Record<State, string> = { ok: 'Concluída', wait: 'Em validação', idle: 'Pendente' };
+const CHIP: Record<State, string> = { ok: '', wait: ' d-chip--low', idle: ' d-chip--idle' };
+
+const rows = phases.flatMap(phase => phase.steps.map(step => ({ ...step, phase: phase.name })));
+
+const Arrow: React.FC = () => (
+  <svg className="m-arrow" viewBox="0 0 12 12" aria-hidden="true">
+    <path className="m-arrow__stem" d="M1 6h8" />
+    <path className="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5" />
+  </svg>
+);
+
+/** Hero "collage": o texto à esquerda, a esteira de etapas de um projeto na janela à direita. */
 const Hero: React.FC = () => {
   return (
-    <section id="topo" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ink">
-      {/* Fundo: arte de linhas luminosas da marca. O degradê à esquerda garante a leitura do texto. */}
-      <img
-        src={bgHero}
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        decoding="async"
-        className="absolute inset-0 -z-20 h-full w-full object-cover object-[78%_50%]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/55 to-transparent sm:via-ink/40 lg:from-ink/30 lg:via-transparent"
-      />
-
-      <div className="wrap flex flex-1 items-center pb-12 pt-32 lg:pt-28">
-        <div className="grid w-full items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
-          {/* Texto */}
-          <div>
-            <p className="eyebrow enter" style={{ '--i': 0 } as React.CSSProperties}>
-              BLW Devs · Petrolina, PE
+    <section className="hero hero--collage" data-enter aria-labelledby="hero-h">
+      <div className="wrap">
+        <div className="hero-text grid hero__grid">
+          <div className="hero__text span-5">
+            <h1 id="hero-h">Software sob medida para empresas e startups</h1>
+            <p className="hero__lead">
+              A BLW, de Petrolina (PE), desenvolve software sob demanda e executa o produto de startups com
+              financiamento. São 9 etapas, da primeira conversa à entrega, e você valida cada fase.
             </p>
-            <h1 className="h-display enter mt-5 text-white" style={{ '--i': 1 } as React.CSSProperties}>
-              Software sob medida, com método do contato à entrega.
-            </h1>
-            <p className="lead enter mt-6 max-w-xl" style={{ '--i': 2 } as React.CSSProperties}>
-              A BLW é uma empresa de desenvolvimento de Petrolina, PE. Fazemos projetos sob demanda e executamos o
-              produto de startups que captaram financiamento. Primeiro especificamos e validamos com você, depois
-              construímos.
-            </p>
-            <div
-              className="enter mt-9 flex flex-col gap-3 sm:flex-row"
-              style={{ '--i': 3 } as React.CSSProperties}
-            >
-              <a href="#contato" className="btn btn-primary">
-                Vamos conversar
-                <ArrowRight className="arrow h-4 w-4" aria-hidden="true" />
+            <div className="btn-row">
+              <a className="btn btn--primary" href="#contato">
+                Falar com a BLW
+                <Arrow />
               </a>
-              <a href="#metodologia" className="btn btn-secondary">
-                Conhecer a metodologia
+              <a className="btn btn--secondary" href="#metodologia">
+                Ver a metodologia
               </a>
             </div>
+            <p className="hero__proof">Parceira da FACEPE. Aprovada no Inova Caatinga.</p>
           </div>
 
-          {/* A metodologia em uma olhada */}
-          <div className="enter relative hidden md:block" style={{ '--i': 4 } as React.CSSProperties}>
-            <div className="relative rounded-2xl border border-white/12 bg-night/75 p-5 backdrop-blur-md sm:p-7">
-              <div className="flex items-baseline justify-between gap-4">
-                <p className="eyebrow">Metodologia BLW</p>
-                <p className="text-sm text-white/55">9 etapas · 4 fases</p>
+          <div
+            className="hero__art span-6 start-7"
+            role="img"
+            aria-label="Esteira de um projeto BLW com as nove etapas: três concluídas e a especificação em validação"
+            style={{ backgroundImage: `url(${bgHero})` }}
+          >
+            <div className="ly-piece ly-piece--main d-win" aria-hidden="true">
+              <div className="d-win__bar">
+                <span className="d-win__dots">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span>BLW · Esteira do projeto</span>
               </div>
-              <ol className="mt-5 divide-y divide-white/10">
-                {phases.map(phase => (
-                  <li key={phase.id} className="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
-                    <span className="pt-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">
-                      {phase.name}
-                    </span>
-                    <ul className="flex flex-wrap gap-2">
-                      {phase.steps.map(step => (
-                        <li
-                          key={step.code}
-                          className="inline-flex items-center gap-2 rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1.5 text-sm text-white transition-colors hover:border-violet/70 hover:bg-violet/15"
-                        >
-                          <span className="font-bold text-violet-300">{step.code}</span>
-                          {step.short}
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ol>
-              <a
-                href="#metodologia"
-                className="link-draw mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-violet-300"
-              >
-                Ver as nove etapas
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              <div className="d-main">
+                <div className="d-main__head">
+                  <h4>Metodologia BLW</h4>
+                  <span className="d-btn">Ciclo 1</span>
+                </div>
+                <div className="d-tabs">
+                  <span className="is-on">Todas 9</span>
+                  <span>Concluídas</span>
+                  <span>Pendentes</span>
+                </div>
+                <div className="d-rows">
+                  {rows.map(row => {
+                    const state = stateOf(row.code);
+                    return (
+                      <div className="d-row" key={row.code}>
+                        <span className="d-thumb d-code">{row.code}</span>
+                        <div>
+                          <b>{row.name}</b>
+                          <small>{row.phase}</small>
+                        </div>
+                        <span className={`d-chip${CHIP[state]}`}>{LABEL[state]}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="ly-piece ly-piece--note d-card" aria-hidden="true" data-ly-steps="700">
+              <div className="d-card__row">
+                <h5>E3 · Especificação</h5>
+                <span className="d-chip" data-step data-step-at="4">
+                  Aprovada
+                </span>
+              </div>
+              <div className="d-note__line" data-step>
+                <i>✓</i>
+                <span>
+                  <b>Requisitos</b> escritos e numerados
+                </span>
+              </div>
+              <div className="d-note__line" data-step>
+                <i>✓</i>
+                <span>
+                  <b>Protótipo</b> validado por você
+                </span>
+              </div>
+              <div className="d-note__line" data-step>
+                <i>✓</i>
+                <span>
+                  <b>Backlog</b> priorizado
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Prova: apoio e reconhecimento do ecossistema */}
-      <div className="border-t border-white/10 bg-ink/60 backdrop-blur-sm">
-        <ul className="wrap grid grid-cols-2 gap-x-6 gap-y-5 py-6 lg:grid-cols-4">
-          {proof.map(item => (
-            <li key={item.name} className="flex flex-col gap-0.5">
-              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-violet-300">{item.label}</span>
-              <span className="text-lg font-semibold text-white">{item.name}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );

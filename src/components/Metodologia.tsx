@@ -1,165 +1,85 @@
-import { useRef } from 'react';
-import { useInView } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
-import { phases } from '../data/methodology';
+import type { CSSProperties } from 'react';
+import { phases, type MethodPhase } from '../data/methodology';
 
-const specPoints = [
-  'Requisitos numerados, ligados à tela do protótipo e ao critério de aceite.',
-  'Regras de negócio escritas na linguagem de quem opera.',
-  'Backlog priorizado em épicos, com o escopo de cada ciclo.',
-  'Pontos em aberto listados para você decidir antes da construção.',
-];
-
-/** Linha que liga as quatro fases. Desenha uma vez quando a seção entra na tela. */
-const Rail: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-15% 0px' });
-
-  return (
-    <div ref={ref} aria-hidden="true" className="relative mb-6 hidden xl:block">
-      <div className="absolute inset-x-0 top-1.5 h-px bg-white/12" />
-      <div
-        className="absolute inset-x-0 top-1.5 h-px origin-left bg-violet"
-        style={{
-          transform: inView ? 'scaleX(1)' : 'scaleX(0)',
-          transition: 'transform 1.4s cubic-bezier(0.22, 1, 0.36, 1)',
-        }}
-      />
-      <div className="relative grid grid-cols-4 gap-5">
-        {phases.map(phase => (
-          <span key={phase.id} className="h-3 w-3 rounded-full bg-violet ring-4 ring-night" />
-        ))}
-      </div>
-    </div>
-  );
+/** O que a fase deixa nas mãos do cliente. */
+const deliverables: Record<string, string> = {
+  entrada: 'Escopo inicial e responsáveis',
+  entender: 'Especificação e backlog priorizado',
+  construir: 'Entregas verificadas',
+  entregar: 'Sistema em uso e decisão do ciclo',
 };
 
+/** Texto de cada passo: um título que diz a fase e duas linhas. */
+const chapters: Record<string, { title: string; text: string }> = {
+  entrada: {
+    title: 'Entrada: etapas E0 e E1',
+    text: 'Entendemos o que você precisa e formalizamos o início, com escopo e responsáveis.',
+  },
+  entender: {
+    title: 'Entender: etapas E2 e E3',
+    text: 'Vamos ao processo real e escrevemos requisitos, critérios de aceite e backlog priorizado.',
+  },
+  construir: {
+    title: 'Construir: etapas E4 a E6',
+    text: 'Definimos a arquitetura, desenvolvemos com apoio de IA e verificamos cada entrega.',
+  },
+  entregar: {
+    title: 'Entregar: etapas E7 e E8',
+    text: 'Colocamos o sistema em uso. No fim do ciclo, decidimos juntos: encerrar, abrir novo ciclo ou pausar.',
+  },
+};
+
+const PhaseWindow: React.FC<{ phase: MethodPhase; index: number }> = ({ phase, index }) => (
+  <figure
+    className="mo-pc__visual"
+    role="img"
+    aria-label={`Fase ${index + 1} de 4, ${phase.name}: ${phase.steps.map(s => `${s.code} ${s.name}`).join('; ')}`}
+  >
+    <div className="d-card ui bw-phase" aria-hidden="true">
+      <div className="d-card__row">
+        <h5>{phase.name}</h5>
+        <span className="d-chip">Fase {index + 1} de 4</span>
+      </div>
+      {phase.steps.map(step => (
+        <div className="d-note__line" key={step.code}>
+          <i>✓</i>
+          <span>
+            <b>{step.code}</b> {step.name}
+          </span>
+        </div>
+      ))}
+      <div className="bw-phase__out">
+        <small>Você recebe</small>
+        <b>{deliverables[phase.id]}</b>
+      </div>
+    </div>
+  </figure>
+);
+
+/** Momento "pinned-chapters": a seção fica duas telas na tela e abre uma fase por vez, com a janela dela ao lado. */
 const Metodologia: React.FC = () => {
   return (
-    <section id="metodologia" className="section-pad bg-night">
-      <div className="wrap">
-        <div className="max-w-3xl">
-          <p className="eyebrow">Metodologia BLW</p>
-          <h2 className="h-section mt-4">Nove etapas, da primeira conversa à decisão sobre o próximo ciclo</h2>
-          <p className="lead mt-5 max-w-2xl">
-            Todo projeto passa pelas mesmas quatro fases. A BLW especifica antes de construir, e cada fase termina em
-            uma entrega que você revisa e aprova.
-          </p>
-        </div>
-
-        <div className="mt-14">
-          <Rail />
-          <ol className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {phases.map((phase, i) => (
-              <li key={phase.id} className="card flex flex-col p-6">
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-xl font-bold">{phase.name}</h3>
-                  <span className="text-sm font-semibold tracking-[0.16em] text-violet-300">0{i + 1}</span>
-                </div>
-                <ol className="mt-6 space-y-6">
-                  {phase.steps.map(step => (
-                    <li key={step.code} className="flex gap-3.5">
-                      <span className="mt-0.5 inline-flex h-7 w-10 shrink-0 items-center justify-center rounded-md bg-violet/20 text-sm font-bold text-violet-300">
-                        {step.code}
-                      </span>
-                      <div>
-                        <h4 className="text-base font-semibold leading-snug text-white">{step.name}</h4>
-                        <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-white/65">{step.description}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
+    <section
+      className="section"
+      id="metodologia"
+      style={{ '--h': 2, '--hm': 2 } as CSSProperties}
+      data-moment="pinned-chapters"
+      aria-labelledby="metodologia-h"
+    >
+      <div className="wrap mo-pc__grid">
+        <div className="mo-pc__text">
+          <h2 id="metodologia-h">Nove etapas em quatro fases</h2>
+          <ol className="mo-pc__steps">
+            {phases.map((phase, index) => (
+              <li className="mo-pc__step" key={phase.id}>
+                <h3>{chapters[phase.id].title}</h3>
+                <p>{chapters[phase.id].text}</p>
+                <PhaseWindow phase={phase} index={index} />
               </li>
             ))}
           </ol>
         </div>
-
-        {/* Exemplo do que sai de uma etapa: a especificação (E3) */}
-        <div className="card mt-8 grid items-center gap-10 p-6 sm:p-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
-          <div>
-            <p className="eyebrow">Exemplo do que você recebe na E3</p>
-            <h3 className="mt-4 text-3xl font-bold leading-tight">Especificação antes de construir</h3>
-            <ul className="mt-6 space-y-3.5">
-              {specPoints.map(point => (
-                <li key={point} className="flex gap-3 text-[1.0625rem] leading-relaxed text-white/75">
-                  <span aria-hidden="true" className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-7 text-[1.0625rem] leading-relaxed text-white/75">
-              O projeto avança em ciclos. O primeiro costuma ser um piloto com uso real, e a cada ciclo decidimos juntos
-              o que vem depois.
-            </p>
-          </div>
-
-          {/* Requisito de exemplo, em formato de especificação */}
-          <div className="overflow-hidden rounded-xl bg-white text-ink shadow-[0_28px_70px_-24px_rgba(97,90,251,0.55)]">
-            <div className="flex items-center gap-2 border-b border-ink/10 bg-mist px-4 py-2.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-ink/20" />
-              <span className="h-2.5 w-2.5 rounded-full bg-ink/20" />
-              <span className="h-2.5 w-2.5 rounded-full bg-ink/20" />
-              <span className="ml-2 text-xs font-medium text-ink/60">Especificação funcional · Ciclo 1</span>
-            </div>
-            <div className="p-5 sm:p-6">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs font-bold tracking-wider text-violet-700">RF-021</p>
-                  <h4 className="mt-1 text-lg font-bold leading-snug">Avisar o responsável quando uma tarefa vencer</h4>
-                </div>
-                <span className="rounded-full bg-violet-700/10 px-2.5 py-1 text-xs font-semibold text-violet-700">
-                  Prioridade alta
-                </span>
-              </div>
-
-              <dl className="mt-5 grid grid-cols-3 gap-3 border-y border-ink/10 py-4 text-sm">
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink/55">Tela</dt>
-                  <dd className="mt-0.5 font-medium">Painel › Tarefas</dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink/55">Regra</dt>
-                  <dd className="mt-0.5 font-medium">RN-04</dd>
-                </div>
-                <div>
-                  <dt className="text-xs uppercase tracking-wide text-ink/55">Aceite</dt>
-                  <dd className="mt-0.5 font-medium">CA-09</dd>
-                </div>
-              </dl>
-
-              <p className="mt-5 text-xs font-bold uppercase tracking-wider text-ink/55">Critério de aceite</p>
-              <dl className="mt-2.5 space-y-2.5 text-[0.9375rem] leading-snug">
-                <div className="flex gap-3">
-                  <dt className="w-14 shrink-0 font-bold text-violet-700">Dado</dt>
-                  <dd>uma tarefa com prazo definido</dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="w-14 shrink-0 font-bold text-violet-700">Quando</dt>
-                  <dd>o prazo passar sem a tarefa ser concluída</dd>
-                </div>
-                <div className="flex gap-3">
-                  <dt className="w-14 shrink-0 font-bold text-violet-700">Então</dt>
-                  <dd>o responsável recebe um aviso e a tarefa aparece em “Atrasadas”</dd>
-                </div>
-              </dl>
-
-              <div className="mt-5 flex items-center justify-between gap-3 rounded-lg bg-mist px-3.5 py-2.5 text-sm">
-                <span className="text-ink/60">Backlog</span>
-                <span className="text-right font-semibold">Épico 3 · Alertas e prazos</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/10 bg-ink p-7 sm:flex-row sm:items-center sm:p-9">
-          <p className="max-w-xl text-lg leading-relaxed text-white/80">
-            Quer ver como essas etapas ficam no seu projeto? Conversamos sobre a metodologia, sem compromisso.
-          </p>
-          <a href="#contato" data-interesse="conhecer-blw" className="btn btn-primary shrink-0">
-            Vamos conversar
-            <ArrowRight className="arrow h-4 w-4" aria-hidden="true" />
-          </a>
-        </div>
+        <div className="mo-pc__visuals frame" />
       </div>
     </section>
   );
