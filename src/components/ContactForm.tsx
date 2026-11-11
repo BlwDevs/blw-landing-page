@@ -1,5 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { Send, CheckCircle, AlertCircle, Loader2, MessageCircle } from 'lucide-react';
 import { useGoogleSheets, type FormSubmissionData } from '../services/googleSheets';
 import { useRdStation } from '../services/rdStation';
@@ -7,10 +6,21 @@ import { useRdStation } from '../services/rdStation';
 /** Número comercial da BLW, no formato aceito pelo wa.me (DDI + DDD + número). */
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '5587988685309';
 
+/** Assuntos do formulário. O `value` também entra no nome da conversão na RD Station. */
+export const INTERESTS = [
+  { value: 'conhecer-blw', label: 'Conhecer a BLW e a metodologia' },
+  { value: 'projeto-sob-demanda', label: 'Um projeto sob demanda' },
+  { value: 'parceria-executora', label: 'Parceria de execução para a minha startup' },
+  { value: 'outro', label: 'Outro assunto' },
+] as const;
+
+type Interest = (typeof INTERESTS)[number]['value'];
+
 interface ContactFormProps {
-  variant?: 'light' | 'dark' | 'glass';
-  compact?: boolean;
-  /** Nome da conversão na RD Station — identifica de qual formulário veio o lead. */
+  /**
+   * Prefixo do nome da conversão na RD Station. O assunto escolhido é somado a ele
+   * (ex.: 'site-blw-contato-parceria-executora') para saber o que cada lead procura.
+   */
   conversionIdentifier?: string;
 }
 
@@ -21,23 +31,31 @@ interface FormData {
   message: string;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({
-  variant = 'light',
-  compact = false,
-  conversionIdentifier = 'site-blw-formulario',
-}) => {
+const EMPTY: FormData = { name: '', email: '', phone: '', message: '' };
+
+const ContactForm: React.FC<ContactFormProps> = ({ conversionIdentifier = 'site-blw-contato' }) => {
   const { submitToSheets, isConfigured } = useGoogleSheets();
   const { submitToRdStation, isConfigured: isRdConfigured } = useRdStation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   /** Distingue "faltou preencher" de "o envio falhou" — a saída para o usuário é diferente. */
   const [errorKind, setErrorKind] = useState<'validacao' | 'envio'>('validacao');
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
+  const [interest, setInterest] = useState<Interest>('conhecer-blw');
+  const [formData, setFormData] = useState<FormData>(EMPTY);
+
+  const interestLabel = INTERESTS.find(i => i.value === interest)?.label ?? '';
+
+  // Links da página com data-interesse="..." já deixam o assunto escolhido ao rolar até aqui
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('[data-interesse]');
+      const value = el?.dataset.interesse;
+      const match = INTERESTS.find(i => i.value === value);
+      if (match) setInterest(match.value);
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
@@ -68,8 +86,8 @@ const ContactForm: React.FC<ContactFormProps> = ({
   const buildWhatsappUrl = (): string => {
     const preenchido = formData.name.trim() || formData.message.trim();
     const texto = preenchido
-      ? `Olá! Vim pelo site da BLW e quero falar sobre uma solução para o agro:\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}${formData.message ? `\n\n*Mensagem:* ${formData.message}` : ''}`
-      : 'Olá! Vim pelo site da BLW e quero falar sobre uma solução para o agro.';
+      ? `Olá! Vim pelo site da BLW e quero falar sobre: ${interestLabel}.\n\n*Nome:* ${formData.name}\n*Email:* ${formData.email}${formData.phone ? `\n*Telefone:* ${formData.phone}` : ''}${formData.message ? `\n\n*Mensagem:* ${formData.message}` : ''}`
+      : `Olá! Vim pelo site da BLW e quero falar sobre: ${interestLabel}.`;
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
   };
 
@@ -84,6 +102,8 @@ const ContactForm: React.FC<ContactFormProps> = ({
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // O assunto vai junto da mensagem para quem lê a planilha e a RD
+    const message = `[${interestLabel}] ${formData.message}`;
     const envios: Promise<unknown>[] = [];
 
     if (isConfigured) {
@@ -91,7 +111,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        message: formData.message
+        message,
       };
       envios.push(submitToSheets(submissionData));
     }
@@ -102,8 +122,8 @@ const ContactForm: React.FC<ContactFormProps> = ({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          message: formData.message,
-          identifier: conversionIdentifier,
+          message,
+          identifier: `${conversionIdentifier}-${interest}`,
         })
       );
     }
@@ -113,7 +133,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
     if (envios.length === 0) {
       window.open(buildWhatsappUrl(), '_blank');
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      setFormData(EMPTY);
       setIsSubmitting(false);
       return;
     }
@@ -129,7 +149,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 
     if (algumSucesso) {
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' });
+      setFormData(EMPTY);
     } else {
       setErrorKind('envio');
       setSubmitStatus('error');
@@ -138,177 +158,164 @@ const ContactForm: React.FC<ContactFormProps> = ({
     setIsSubmitting(false);
   };
 
-  const isDark = variant === 'dark';
-  const isGlass = variant === 'glass';
-
-  const cardClasses = isGlass
-    ? 'glass-card rounded-2xl p-6 lg:p-8'
-    : isDark
-      ? 'bg-[var(--blw-dark-card)] border border-[var(--blw-gray-800)] rounded-2xl p-6 lg:p-8'
-      : 'bg-white dark:bg-[var(--blw-dark-card)] border border-[var(--blw-gray-200)] dark:border-[var(--blw-gray-800)] rounded-2xl p-6 lg:p-8 shadow-xl shadow-black/5';
-
-  const inputClasses = isDark || isGlass
-    ? 'form-input !bg-[var(--blw-dark-surface)] !border-[var(--blw-gray-800)] !text-white !placeholder-[var(--blw-gray-600)]'
-    : 'form-input';
-
-  const labelClasses = isDark || isGlass
-    ? 'block text-sm font-medium text-gray-300 mb-2'
-    : 'block text-sm font-medium text-[var(--blw-gray-600)] dark:text-gray-300 mb-2';
+  const labelClasses = 'mb-2 block text-sm font-medium text-white/80';
 
   return (
-    <div className={cardClasses}>
-      <div className="text-center mb-6">
-        <h3 className={`text-xl lg:text-2xl font-bold mb-1 font-display ${isDark || isGlass ? 'text-white' : 'text-[var(--blw-text)] dark:text-white'}`}>
-          Fale com a BLW
-        </h3>
-        <p className={`text-sm ${isDark || isGlass ? 'text-gray-400' : 'text-[var(--blw-gray-400)] dark:text-gray-400'}`}>
-          Resposta em menos de 24 horas
-        </p>
-      </div>
+    <div className="rounded-2xl border border-white/10 bg-ink p-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] sm:p-8">
+      <h3 className="text-2xl font-bold text-white">Fale com a BLW</h3>
+      <p className="mt-1 text-sm text-white/60">Resposta em menos de 24 horas</p>
 
       {submitStatus === 'success' ? (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="flex flex-col items-center justify-center py-12 gap-4"
-        >
-          <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center">
-            <CheckCircle className="w-8 h-8 text-emerald-500" />
-          </div>
-          <p className={`text-lg font-semibold ${isDark || isGlass ? 'text-white' : 'text-[var(--blw-text)] dark:text-white'}`}>
-            Mensagem enviada!
-          </p>
-          <p className={`text-sm text-center ${isDark || isGlass ? 'text-gray-400' : 'text-[var(--blw-gray-400)]'}`}>
-            Recebemos seu contato e respondemos em menos de 24 horas.
-          </p>
+        <div className="flex flex-col items-center justify-center gap-4 py-12 text-center" role="status">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-violet/20">
+            <CheckCircle className="h-8 w-8 text-violet-300" aria-hidden="true" />
+          </span>
+          <p className="text-lg font-semibold text-white">Mensagem enviada!</p>
+          <p className="text-sm text-white/65">Recebemos seu contato e respondemos em menos de 24 horas.</p>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--blw-accent-emerald)] hover:underline mt-1"
+            className="link-draw inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-violet-300"
           >
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
             Prefere agilizar? Chame no WhatsApp
           </a>
           <button
+            type="button"
             onClick={() => setSubmitStatus('idle')}
-            className={`text-sm font-medium hover:underline ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}
+            className="min-h-[44px] text-sm font-medium text-white/55 hover:text-white"
           >
             Enviar outra mensagem
           </button>
-        </motion.div>
+        </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className={compact ? 'space-y-4' : 'grid grid-cols-1 md:grid-cols-2 gap-4'}>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
+          <div>
+            <label htmlFor="form-interest" className={labelClasses}>
+              Sobre o que você quer falar?
+            </label>
+            <select
+              id="form-interest"
+              name="interest"
+              value={interest}
+              onChange={e => setInterest(e.target.value as Interest)}
+              className="form-field"
+            >
+              {INTERESTS.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label htmlFor="form-name" className={labelClasses}>Nome *</label>
+              <label htmlFor="form-name" className={labelClasses}>
+                Nome *
+              </label>
               <input
                 type="text"
                 id="form-name"
                 name="name"
                 required
+                autoComplete="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className={inputClasses}
+                className="form-field"
                 placeholder="Seu nome"
               />
             </div>
             <div>
-              <label htmlFor="form-email" className={labelClasses}>Email *</label>
+              <label htmlFor="form-email" className={labelClasses}>
+                Email *
+              </label>
               <input
                 type="email"
                 id="form-email"
                 name="email"
                 required
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={inputClasses}
+                className="form-field"
                 placeholder="seu@email.com"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="form-phone" className={labelClasses}>Telefone</label>
+            <label htmlFor="form-phone" className={labelClasses}>
+              Telefone
+            </label>
             <input
               type="tel"
               id="form-phone"
               name="phone"
+              autoComplete="tel"
               value={formData.phone}
               onChange={handleInputChange}
               maxLength={15}
-              className={inputClasses}
+              className="form-field"
               placeholder="(87) 99999-9999"
             />
           </div>
 
           <div>
-            <label htmlFor="form-message" className={labelClasses}>Mensagem *</label>
+            <label htmlFor="form-message" className={labelClasses}>
+              Mensagem *
+            </label>
             <textarea
               id="form-message"
               name="message"
               required
-              rows={compact ? 3 : 4}
+              rows={4}
               value={formData.message}
               onChange={handleInputChange}
-              className={`${inputClasses} resize-none`}
-              placeholder="Conte da sua operação: propriedade, cooperativa, distrito de irrigação..."
+              className="form-field resize-none"
+              placeholder="Conte em poucas linhas o que você precisa ou o que quer saber."
             />
           </div>
 
           {submitStatus === 'error' && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2 text-red-500 text-sm"
-            >
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <div role="alert" className="flex items-start gap-2 text-sm text-red-300">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
               <span>
                 {errorKind === 'validacao'
-                  ? 'Preencha todos os campos obrigatórios.'
+                  ? 'Preencha nome, email e mensagem.'
                   : 'Não conseguimos enviar agora. Tente de novo ou fale com a gente pelo WhatsApp abaixo.'}
               </span>
-            </motion.div>
+            </div>
           )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="shimmer-btn w-full py-3.5 px-6 rounded-xl font-semibold text-white bg-[var(--blw-accent-emerald)] hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
-          >
+          <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full disabled:opacity-50">
             {isSubmitting ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 Enviando...
               </>
             ) : (
               <>
-                <Send className="w-4 h-4" />
+                <Send className="h-4 w-4" aria-hidden="true" />
                 Enviar mensagem
               </>
             )}
           </button>
 
           {/* Canal alternativo — quem prefere WhatsApp não precisa passar pelo formulário */}
-          <div className="flex items-center gap-3">
-            <div className={`flex-1 h-px ${isDark || isGlass ? 'bg-white/10' : 'bg-[var(--blw-gray-200)] dark:bg-[var(--blw-gray-800)]'}`} />
-            <span className={`text-xs ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}>ou</span>
-            <div className={`flex-1 h-px ${isDark || isGlass ? 'bg-white/10' : 'bg-[var(--blw-gray-200)] dark:bg-[var(--blw-gray-800)]'}`} />
+          <div className="flex items-center gap-3" aria-hidden="true">
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-xs text-white/45">ou</span>
+            <div className="h-px flex-1 bg-white/10" />
           </div>
 
-          <a
-            href={buildWhatsappUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-3.5 px-6 rounded-xl font-semibold text-[var(--blw-accent-emerald)] border-2 border-[var(--blw-accent-emerald)]/25 hover:border-[var(--blw-accent-emerald)]/50 hover:bg-[var(--blw-accent-emerald)]/5 transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            <MessageCircle className="w-4 h-4" />
+          <a href={buildWhatsappUrl()} target="_blank" rel="noopener noreferrer" className="btn btn-secondary w-full">
+            <MessageCircle className="h-4 w-4" aria-hidden="true" />
             Falar no WhatsApp
           </a>
 
-          <p className={`text-xs text-center ${isDark || isGlass ? 'text-gray-500' : 'text-[var(--blw-gray-400)]'}`}>
-            Seus dados estão seguros conosco.
-          </p>
+          <p className="text-center text-xs text-white/50">Usamos seus dados só para responder a este contato.</p>
         </form>
       )}
     </div>

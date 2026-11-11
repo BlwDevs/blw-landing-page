@@ -1,142 +1,137 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Sprout, MessageSquareText, Radio, Blocks } from 'lucide-react';
-import ContactForm from './ContactForm';
+import { ArrowRight } from 'lucide-react';
+import { BlwSymbol, BrandPattern } from './BlwLogo';
+import { phases } from '../data/methodology';
 
-const words = ['decidir melhor', 'produzir mais', 'perder menos'];
+/** Reconhecimentos e apoios reais da BLW. Rótulo + nome. */
+const proof = [
+  { label: 'Parceira', name: 'FACEPE' },
+  { label: 'Aprovada no', name: 'Inova Caatinga' },
+  { label: 'Incubada na', name: 'INTECVASF' },
+  { label: 'Apoio', name: 'SEBRAE' },
+];
 
 const Hero: React.FC = () => {
-  const [wordIndex, setWordIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWordIndex(i => (i + 1) % words.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
-
-  const features = [
-    { icon: Sprout, text: 'Gestão rural' },
-    { icon: MessageSquareText, text: 'Consultor digital 24/7' },
-    { icon: Radio, text: 'Monitoramento preditivo' },
-    { icon: Blocks, text: 'IA sob medida' },
-  ];
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-white dark:bg-[var(--blw-dark)] transition-colors duration-300">
-      {/* Background layers */}
-      <div className="absolute inset-0 mesh-gradient" />
-      <div className="absolute inset-0 grid-pattern" />
+    <section id="topo" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ink">
+      {/* Fundo: brilhos da marca + padrão de símbolos em contorno */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(60% 55% at 88% -5%, rgba(97,90,251,0.38) 0%, transparent 62%), radial-gradient(50% 45% at 0% 100%, rgba(161,71,184,0.22) 0%, transparent 65%)',
+        }}
+      />
+      <svg
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 h-full w-full"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        fill="none"
+      >
+        <defs>
+          <linearGradient id="arc-a" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0" stopColor="#615afb" stopOpacity="0" />
+            <stop offset="0.55" stopColor="#615afb" stopOpacity="0.5" />
+            <stop offset="1" stopColor="#a7a3ff" stopOpacity="0.15" />
+          </linearGradient>
+        </defs>
+        <path d="M-80 760 C 330 520, 760 330, 1520 -40" stroke="url(#arc-a)" strokeWidth="1.5" />
+        <path d="M-80 830 C 380 610, 860 420, 1520 90" stroke="url(#arc-a)" strokeWidth="1" opacity="0.6" />
+      </svg>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 text-white/[0.07]"
+        style={{
+          maskImage: 'radial-gradient(70% 70% at 70% 40%, #000 0%, transparent 75%)',
+          WebkitMaskImage: 'radial-gradient(70% 70% at 70% 40%, #000 0%, transparent 75%)',
+        }}
+      >
+        <BrandPattern />
+      </div>
 
-      {/* Floating blobs */}
-      <div className="blob blob-1 w-[500px] h-[500px] bg-[var(--blw-accent-emerald)]/20 dark:bg-[var(--blw-accent-emerald)]/10 -top-40 -left-40" />
-      <div className="blob blob-2 w-[400px] h-[400px] bg-[var(--blw-blue)]/15 dark:bg-[var(--blw-blue)]/8 top-1/2 right-0" />
-      <div className="blob blob-3 w-[300px] h-[300px] bg-violet-500/10 dark:bg-violet-500/5 bottom-0 left-1/3" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-28 md:py-32 w-full">
-        <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
-          {/* Left — Content */}
-          <div className="space-y-8">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+      <div className="wrap flex flex-1 items-center pb-12 pt-32 lg:pt-28">
+        <div className="grid w-full items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+          {/* Texto */}
+          <div>
+            <p className="eyebrow enter" style={{ '--i': 0 } as React.CSSProperties}>
+              BLW Devs · Petrolina, PE
+            </p>
+            <h1 className="h-display enter mt-5 text-white" style={{ '--i': 1 } as React.CSSProperties}>
+              Software sob medida, com método do contato à entrega.
+            </h1>
+            <p className="lead enter mt-6 max-w-xl" style={{ '--i': 2 } as React.CSSProperties}>
+              A BLW é uma empresa de desenvolvimento de Petrolina, PE. Fazemos projetos sob demanda e executamos o
+              produto de startups que captaram financiamento. Primeiro especificamos e validamos com você, depois
+              construímos.
+            </p>
+            <div
+              className="enter mt-9 flex flex-col gap-3 sm:flex-row"
+              style={{ '--i': 3 } as React.CSSProperties}
             >
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wide uppercase bg-[var(--blw-accent-emerald)]/10 text-[var(--blw-accent-emerald)] border border-[var(--blw-accent-emerald)]/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--blw-accent-emerald)] animate-pulse" />
-                AgTech · Vale do São Francisco
-              </span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-[2rem] sm:text-[2.75rem] lg:text-5xl xl:text-[3.25rem] font-bold leading-[1.1] text-[var(--blw-text)] dark:text-white"
-            >
-              Inteligência artificial
-              <br />
-              para o agro
-              <br />
-              <motion.span
-                className="gradient-text-agro inline-block"
-                key={wordIndex}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {words[wordIndex]}
-              </motion.span>
-            </motion.h1>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-              className="text-lg sm:text-xl text-[var(--blw-gray-600)] dark:text-gray-400 max-w-xl leading-relaxed"
-            >
-              A BLW é uma casa de produtos de IA para o agronegócio. Criamos o{' '}
-              <strong className="font-semibold text-[var(--blw-text)] dark:text-gray-200">Cultiva.ai</strong> e
-              desenvolvemos soluções sob medida para cooperativas, distritos de irrigação e empresas do agro.
-            </motion.p>
-
-            {/* Feature pills */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-wrap gap-3"
-            >
-              {features.map((feat, i) => (
-                <motion.div
-                  key={feat.text}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: 0.55 + i * 0.08 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[var(--blw-dark-surface)] border border-[var(--blw-gray-200)] dark:border-[var(--blw-gray-800)] shadow-sm"
-                >
-                  <feat.icon className="w-4 h-4 text-[var(--blw-accent-emerald)]" />
-                  <span className="text-sm font-medium text-[var(--blw-text)] dark:text-gray-300">{feat.text}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 pt-2"
-            >
-              <button
-                onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
-                className="shimmer-btn group inline-flex items-center justify-center gap-2 px-7 py-4 text-base font-bold text-white bg-[var(--blw-accent-emerald)] hover:bg-emerald-600 rounded-xl transition-all duration-200 shadow-lg shadow-[var(--blw-accent-emerald)]/20"
-              >
-                Falar com a BLW
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-              <button
-                onClick={() => document.getElementById('services-start')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center justify-center gap-2 px-7 py-4 text-base font-bold text-[var(--blw-accent-emerald)] border-2 border-[var(--blw-accent-emerald)]/20 hover:border-[var(--blw-accent-emerald)]/40 bg-[var(--blw-accent-emerald)]/5 hover:bg-[var(--blw-accent-emerald)]/10 rounded-xl transition-all duration-200"
-              >
-                Ver soluções
-              </button>
-            </motion.div>
+              <a href="#contato" className="btn btn-primary">
+                Vamos conversar
+                <ArrowRight className="arrow h-4 w-4" aria-hidden="true" />
+              </a>
+              <a href="#metodologia" className="btn btn-secondary">
+                Conhecer a metodologia
+              </a>
+            </div>
           </div>
 
-          {/* Right — Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40, rotateY: -5 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            id="contact-form"
-          >
-            <ContactForm variant="light" conversionIdentifier="site-blw-hero" />
-          </motion.div>
+          {/* A metodologia em uma olhada */}
+          <div className="enter relative hidden md:block" style={{ '--i': 4 } as React.CSSProperties}>
+            <BlwSymbol
+              tone="on-dark"
+              className="pointer-events-none absolute -right-10 -top-14 hidden h-[118%] w-auto opacity-[0.16] lg:block"
+            />
+            <div className="relative rounded-2xl border border-white/12 bg-night/75 p-5 backdrop-blur-md sm:p-7">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="eyebrow">Metodologia BLW</p>
+                <p className="text-sm text-white/55">9 etapas · 4 fases</p>
+              </div>
+              <ol className="mt-5 divide-y divide-white/10">
+                {phases.map(phase => (
+                  <li key={phase.id} className="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[6.5rem_1fr] sm:gap-4">
+                    <span className="pt-1 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">
+                      {phase.name}
+                    </span>
+                    <ul className="flex flex-wrap gap-2">
+                      {phase.steps.map(step => (
+                        <li
+                          key={step.code}
+                          className="inline-flex items-center gap-2 rounded-lg border border-white/12 bg-white/[0.04] px-2.5 py-1.5 text-sm text-white transition-colors hover:border-violet/70 hover:bg-violet/15"
+                        >
+                          <span className="font-bold text-violet-300">{step.code}</span>
+                          {step.short}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ol>
+              <a
+                href="#metodologia"
+                className="link-draw mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-semibold text-violet-300"
+              >
+                Ver as nove etapas
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Prova: apoio e reconhecimento do ecossistema */}
+      <div className="border-t border-white/10 bg-ink/60 backdrop-blur-sm">
+        <ul className="wrap grid grid-cols-2 gap-x-6 gap-y-5 py-6 lg:grid-cols-4">
+          {proof.map(item => (
+            <li key={item.name} className="flex flex-col gap-0.5">
+              <span className="text-xs font-semibold uppercase tracking-[0.16em] text-violet-300">{item.label}</span>
+              <span className="text-lg font-semibold text-white">{item.name}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

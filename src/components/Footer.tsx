@@ -1,30 +1,29 @@
-import { ExternalLink } from 'lucide-react';
-import logoBlw from '../assets/logo-BLW.png';
+import { ArrowUpRight } from 'lucide-react';
+import { BlwLogo } from './BlwLogo';
 import { CULTIVA_APP_URL } from '../constants';
 
 interface FooterLink {
   label: string;
-  id?: string;
-  href?: string;
+  href: string;
+  external?: boolean;
 }
 
 const footerSections: { title: string; links: FooterLink[] }[] = [
   {
-    title: 'Soluções',
+    title: 'Atuação',
     links: [
-      { label: 'Cultiva.ai Gestão', id: 'cultiva-ai' },
-      { label: 'Cultiva.ai Consultoria', id: 'consultor-digital' },
-      { label: 'Cultiva.Guard (SDPAH)', id: 'cultiva-guard' },
-      { label: 'Soluções sob medida', id: 'sob-medida' },
-      { label: 'Baixar o app Cultiva.ai', href: CULTIVA_APP_URL },
+      { label: 'Projetos sob demanda', href: '#atuacao' },
+      { label: 'Parceria executora', href: '#parceria' },
+      { label: 'Produtos próprios', href: '#produtos' },
+      { label: 'Baixar o app Cultiva.ai', href: CULTIVA_APP_URL, external: true },
     ],
   },
   {
     title: 'Empresa',
     links: [
-      { label: 'Sobre a BLW', id: 'sobre' },
-      { label: 'Parceiros', id: 'parceiros' },
-      { label: 'Contato', id: 'cta-form' },
+      { label: 'Metodologia', href: '#metodologia' },
+      { label: 'Quem somos', href: '#quem-somos' },
+      { label: 'Contato', href: '#contato' },
     ],
   },
 ];
@@ -42,41 +41,32 @@ const socials = [
   },
 ];
 
-const scrollTo = (id: string) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-};
-
 const Footer: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[var(--blw-gray-100)] dark:bg-[#080b10] text-[var(--blw-text)] dark:text-white transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2.5 mb-5">
-              <img src={logoBlw} alt="BLW" className="h-9 w-auto" />
-              <span className="font-display font-bold text-lg tracking-tight">BLW Desenvolvimento</span>
-            </div>
-            <p className="text-[var(--blw-gray-600)] dark:text-gray-400 text-sm leading-relaxed max-w-sm mb-4">
-              Casa de produtos de inteligência artificial para o agronegócio. Criadores do Cultiva.ai,
-              nascida no Vale do São Francisco.
+    <footer className="border-t border-white/10 bg-ink">
+      <div className="wrap py-14 lg:py-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
+          <div>
+            <BlwLogo tone="on-dark" className="h-10 w-auto" />
+            <p className="mt-5 text-xs font-light uppercase tracking-[0.4em] text-white/60">
+              Building Lines Worldwide
             </p>
-            <p className="text-[var(--blw-gray-400)] dark:text-gray-500 text-xs leading-relaxed max-w-sm mb-6">
-              Petrolina/PE · Empresa Simples de Inovação · CNPJ 61.973.869/0001-07
+            <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-white/65">
+              Desenvolvimento de software sob medida e parceria executora para startups com financiamento.
             </p>
-            <div className="flex gap-3">
+            <div className="mt-6 flex gap-3">
               {socials.map(social => (
                 <a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-lg bg-black/5 dark:bg-white/5 border border-[var(--blw-gray-200)] dark:border-white/5 flex items-center justify-center text-[var(--blw-gray-400)] dark:text-gray-400 hover:text-[var(--blw-accent-emerald)] hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-200"
                   aria-label={social.name}
+                  className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/12 text-white/70 transition-colors hover:border-violet hover:text-white"
                 >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-[18px] w-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d={social.path} />
                   </svg>
                 </a>
@@ -84,54 +74,32 @@ const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Link sections */}
           {footerSections.map(section => (
-            <div key={section.title}>
-              <h3 className="font-display font-bold text-sm mb-4 tracking-wide text-[var(--blw-text)] dark:text-white">{section.title}</h3>
-              <ul className="space-y-2.5">
+            <nav key={section.title} aria-label={section.title}>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-white/55">{section.title}</h3>
+              <ul className="mt-5 space-y-1">
                 {section.links.map(link => (
                   <li key={link.label}>
-                    {link.href ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm text-[var(--blw-accent-emerald)] hover:underline"
-                      >
-                        {link.label}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    ) : (
-                      <button
-                        onClick={() => scrollTo(link.id!)}
-                        className="text-sm text-[var(--blw-gray-600)] dark:text-gray-400 hover:text-[var(--blw-blue)] dark:hover:text-white transition-colors"
-                      >
-                        {link.label}
-                      </button>
-                    )}
+                    <a
+                      href={link.href}
+                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="inline-flex min-h-[44px] items-center gap-1.5 text-[0.9375rem] text-white/75 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                      {link.external && <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />}
+                    </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[var(--blw-gray-200)] dark:border-white/5">
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-xs text-[var(--blw-gray-400)] dark:text-gray-500">
-              &copy; {year} BLW Desenvolvimento. Todos os direitos reservados.
-            </p>
-            <div className="flex gap-5">
-              {['Privacidade', 'Termos', 'Cookies'].map(link => (
-                <button key={link} className="text-xs text-[var(--blw-gray-400)] dark:text-gray-500 hover:text-[var(--blw-blue)] dark:hover:text-gray-300 transition-colors">
-                  {link}
-                </button>
-              ))}
-            </div>
-          </div>
+      <div className="border-t border-white/10">
+        <div className="wrap flex flex-col gap-2 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {year} BLW Desenvolvimento. Todos os direitos reservados.</p>
+          <p>Petrolina/PE · Empresa Simples de Inovação · CNPJ 61.973.869/0001-07</p>
         </div>
       </div>
     </footer>

@@ -1,145 +1,111 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Moon, Sun } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import logoBlw from '../assets/logo-BLW.png';
+import { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { BlwLogo } from './BlwLogo';
 
 const navLinks = [
-  { label: 'Início', id: 'hero' },
-  { label: 'Soluções', id: 'services-start' },
-  { label: 'Cultiva.ai', id: 'cultiva-ai' },
-  { label: 'Sobre', id: 'sobre' },
-  { label: 'Parceiros', id: 'parceiros' },
-  { label: 'Contato', id: 'cta-form' },
+  { label: 'Atuação', href: '#atuacao' },
+  { label: 'Metodologia', href: '#metodologia' },
+  { label: 'Parceria executora', href: '#parceria' },
+  { label: 'Produtos', href: '#produtos' },
+  { label: 'Quem somos', href: '#quem-somos' },
 ];
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isDarkMode, toggleDarkMode } = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
-  };
+  // Menu aberto: trava a rolagem da página e fecha com Esc
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isMenuOpen]);
 
   return (
     <>
-      <motion.header
-        initial={{ y: -80 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/80 dark:bg-[var(--blw-dark)]/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-sm'
-            : 'bg-transparent'
-        }`}
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        isScrolled || isMenuOpen
+          ? 'bg-ink/85 backdrop-blur-xl border-b border-white/10'
+          : 'bg-transparent border-b border-transparent'
+      }`}
+    >
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-[70] focus:rounded-lg focus:bg-violet focus:px-4 focus:py-2 focus:text-white"
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-[72px]">
-            {/* Logo */}
-            <button onClick={() => scrollTo('hero')} className="flex items-center gap-2 group">
-              <img src={logoBlw} alt="BLW" className="h-9 w-auto" />
-              <span className="font-display font-bold text-lg text-[var(--blw-text)] dark:text-white tracking-tight hidden sm:block">
-                Build Lines to World
-              </span>
-            </button>
+        Ir para o conteúdo
+      </a>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map(link => (
-                <button
-                  key={link.id}
-                  onClick={() => scrollTo(link.id)}
-                  className="px-4 py-2 text-sm font-medium text-[var(--blw-gray-600)] dark:text-gray-400 hover:text-[var(--blw-text)] dark:hover:text-white transition-colors rounded-lg hover:bg-black/[0.03] dark:hover:bg-white/[0.04]"
-                >
-                  {link.label}
-                </button>
-              ))}
+      <div className="wrap flex h-[72px] items-center justify-between">
+        <a href="#topo" aria-label="BLW Devs, voltar ao topo" className="flex h-11 items-center">
+          <BlwLogo tone="on-dark" className="h-8 w-auto" />
+        </a>
 
-              <button
-                onClick={toggleDarkMode}
-                className="ml-2 p-2.5 rounded-xl text-[var(--blw-gray-600)] dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                aria-label="Alternar tema"
-              >
-                {isDarkMode ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
-              </button>
-
-              <button
-                onClick={() => scrollTo('contact-form')}
-                className="shimmer-btn ml-3 px-5 py-2.5 text-sm font-semibold text-white bg-[var(--blw-accent-emerald)] hover:bg-emerald-600 rounded-xl transition-all duration-200"
-              >
-                Falar com a BLW
-              </button>
-            </nav>
-
-            {/* Mobile controls */}
-            <div className="flex items-center gap-2 lg:hidden">
-              <button
-                onClick={toggleDarkMode}
-                className="p-2.5 rounded-xl text-[var(--blw-gray-600)] dark:text-gray-400"
-                aria-label="Alternar tema"
-              >
-                {isDarkMode ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
-              </button>
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2.5 rounded-xl text-[var(--blw-text)] dark:text-white"
-                aria-label="Menu"
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </motion.header>
-
-      {/* Mobile menu overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 bottom-0 w-[280px] bg-white dark:bg-[var(--blw-dark)] border-l border-black/5 dark:border-white/5 p-6 pt-20"
-              onClick={e => e.stopPropagation()}
+        <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+          {navLinks.map(link => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-lg px-3.5 py-2.5 text-[0.9375rem] font-medium text-white/70 transition-colors hover:text-white"
             >
-              <div className="flex flex-col gap-1">
-                {navLinks.map(link => (
-                  <button
-                    key={link.id}
-                    onClick={() => scrollTo(link.id)}
-                    className="w-full text-left px-4 py-3 text-base font-medium text-[var(--blw-text)] dark:text-white rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                  >
-                    {link.label}
-                  </button>
-                ))}
-                <button
-                  onClick={() => scrollTo('contact-form')}
-                  className="mt-4 w-full py-3.5 text-center text-sm font-semibold text-white bg-[var(--blw-accent-emerald)] rounded-xl"
-                >
-                  Falar com a BLW
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {link.label}
+            </a>
+          ))}
+          <a href="#contato" className="btn btn-primary ml-3 !min-h-[44px] !px-5 !py-2 !text-[0.9375rem]">
+            Vamos conversar
+          </a>
+        </nav>
+
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(open => !open)}
+          aria-expanded={isMenuOpen}
+          aria-controls="menu-mobile"
+          aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          className="-mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-white lg:hidden"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
+    </header>
+
+    {/* Menu mobile em tela cheia. Fica fora do <header>: o backdrop-blur do header
+        viraria o referencial do position:fixed e o painel colapsaria. */}
+    {isMenuOpen && (
+      <div id="menu-mobile" className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-ink lg:hidden">
+        <nav aria-label="Principal (mobile)" className="wrap flex flex-col py-6">
+          {navLinks.map(link => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsMenuOpen(false)}
+              className="flex min-h-[56px] items-center border-b border-white/10 text-xl font-semibold text-white"
+            >
+              {link.label}
+            </a>
+          ))}
+          <a href="#contato" onClick={() => setIsMenuOpen(false)} className="btn btn-primary mt-8 w-full">
+            Vamos conversar
+          </a>
+        </nav>
+      </div>
+    )}
     </>
   );
 };

@@ -1,167 +1,150 @@
-# BLW — Planejamento da Landing Page (v2 · posicionamento AgTech)
+# BLW — Planejamento da Landing Page (v3 · institucional, nova marca)
 
-> Atualizado em 2026-07-22. Substitui a versão anterior, que posicionava a BLW como
-> software house generalista (Web & Mobile, Design, Fiscal). Base: `business-workspace/trabalho/2026-07-canvas/canvas-blw-v2.md`
-> e `canvas-cultiva-ai-v2.md`.
+> Atualizado em 2026-11-11. Substitui a v2 (posicionamento AgTech / Cultiva.ai como foco).
+> A página agora é da **empresa BLW Devs**: capta parcerias, projetos sob demanda e conversas
+> para conhecer a metodologia. O Cultiva.ai virou prova de produto, não o assunto principal.
+> Base: Guia de Identidade Visual BLW e o material interno da metodologia (E0–E8).
 
 ## 1. Posicionamento
 
-**Categoria:** casa de produtos de IA para o agronegócio, nascida no Vale do São Francisco.
+**Categoria:** desenvolvimento de software sob medida com metodologia própria, mais parceria
+executora para startups que captaram financiamento. Sede em Petrolina/PE.
 
-**Público desta página (vitrine institucional — não é canal de aquisição de produtor):**
-cooperativas e associações, distritos de irrigação e concessionárias, empresas do agro,
-parceiros institucionais e bancas de edital. A aquisição de produtor acontece por venda
-fundador, indicação e WhatsApp — ver canvas do Cultiva.ai.
+**Quem a página quer atrair:**
 
-**Hierarquia das soluções (não estão em pé de igualdade):**
+1. Empresas, cooperativas e instituições com um projeto de software (sob demanda).
+2. Startups com edital, aceleração ou investimento que precisam de um time executor.
+3. Parceiros e quem só quer conhecer a BLW e a metodologia.
 
-| Solução | Papel na página |
-|---|---|
-| Cultiva.ai Gestão | Produto principal — seção dedicada com mockup do app |
-| Cultiva.ai Consultoria | Diferencial — seção dedicada com terminal de conversa |
-| Cultiva.Guard (SDPAH) | Prova técnica e piloto DINC — não vendido como produto pronto |
-| Soluções sob medida | Porta B2B para cooperativas e empresas do agro |
+**CTA único da página:** "Vamos conversar" (formulário + WhatsApp). O formulário tem um campo
+de assunto com quatro opções; links da página pré-selecionam o assunto (`data-interesse`).
 
-**Regra de honestidade:** nada de métricas inventadas (projetos entregues, clientes, acurácia
-de modelo). A BLW é pré-receita; a prova social vem dos parceiros reais e do piloto DINC.
+**Regra de honestidade:** nada de métricas ou clientes inventados. Credenciais usadas na página:
+parceira FACEPE (edital COMPET Soluções), aprovada no Inova Caatinga, incubada na INTECVASF,
+apoio SEBRAE, redes AgriFuture Hub e São Francisco Valley.
 
-## 2. Identidade Visual
+**Confidencialidade:** a apresentação de especificação feita para um cliente (E3) é confidencial.
+Ela foi usada só para entender a estrutura da metodologia. Nenhum nome de cliente, sistema,
+número ou tela dela entra na página. O exemplo de requisito (RF-021) é fictício.
 
-### Paleta
+## 2. Identidade visual
 
-| Uso | Hex | Variável |
-|-----|-----|----------|
-| Verde agro (ação primária, Cultiva.ai Gestão) | `#10b981` | `--blw-accent-emerald` |
-| Azul BLW (marca, soluções sob medida) | `#0d80f2` | `--blw-blue` |
-| Roxo (IA / Consultoria) | `#8b5cf6` | `--blw-accent-violet` |
-| Ciano (água / Cultiva.Guard) | `#06b6d4` | `--blw-accent-cyan` |
-| Âmbar (alerta / anomalia) | `#f59e0b` | `--blw-accent-amber` |
-| Fundo dark | `#0a0d12` | `--blw-dark` |
+Fonte: `Guia - Identidade Visual BLW.pdf`.
 
-O verde substituiu o azul como cor de ação primária (CTAs do header, hero, formulário) —
-é o que ancora a leitura "agro" antes mesmo do texto. O azul permanece como cor da marca.
+| Cor | Hex | Uso na página |
+|---|---|---|
+| Violeta tecnológico | `#615afb` | Botões, símbolo, seção de contato |
+| Violeta claro (derivado) | `#a7a3ff` | Rótulos e texto pequeno sobre fundo escuro |
+| Violeta escuro (derivado) | `#4338d6` | Texto pequeno sobre fundo claro |
+| Roxo tech | `#a147b8` | Só em brilhos do hero |
+| Preto profundo | `#0c0b18` | Fundo base |
+| Azul noturno | `#11112a` | Cartões e seções alternadas |
+| Cinza claro | `#e9e9ef` | Seção de parceria (ritmo claro) |
 
-Gradiente `.gradient-text-agro` (verde → teal → azul) para as palavras de destaque.
+> O PDF do guia imprime `#615afb` para violeta, roxo tech e branco. O roxo tech (`#a147b8`) foi
+> medido na imagem. **Confirmar com o designer.**
 
-### Tipografia
-- Títulos: **Space Grotesk** — utilitário `font-display` (token `--font-display` no `@theme`).
-  Substituiu a Syne, que era display demais e prejudicava a leitura de headlines longos.
-- Corpo: **DM Sans**
-
-> A Space Grotesk vai só até o peso **700**. Os títulos usam `font-bold`, não `font-extrabold`,
-> e o CSS aplica `font-synthesis-weight: none` para nenhum navegador forjar peso acima disso.
-
-### Contato
-- WhatsApp exibido: +55 87 98868-5309 · e-mail: blwdevs@gmail.com
-- Sede: Petrolina/PE — Vale do São Francisco
+- **Tipografia:** Asap (Google Fonts), pesos 300 a 800. Títulos em 700/800, corpo em 400.
+- **Logo:** vetores em `src/assets/brand/paths.ts`, gerados a partir dos arquivos oficiais.
+  Componentes `BlwLogo`, `BlwSymbol` e `BrandPattern` em `src/components/BlwLogo.tsx`.
+  Versões permitidas: violeta + branco (fundo escuro), violeta + preto (fundo claro), tudo branco
+  sobre violeta. Não distorcer, rotacionar, trocar cores nem usar sem contraste.
+- **Assinatura:** "Building Lines Worldwide", em caixa alta com espaçamento largo (footer).
+- **Tema:** escuro por padrão, sem alternância claro/escuro. A seção de parceria é clara de
+  propósito, para dar ritmo.
 
 ## 3. Arquitetura da página
 
 ```
-[HEADER]              Início · Soluções · Cultiva.ai · Sobre · Parceiros · Contato
-    |
-[HERO + FORM]         "Inteligência artificial para o agro decidir melhor"
-    |                 (palavra rotativa: decidir melhor / produzir mais / perder menos)
-[PARCEIROS]           INTECVASF, SEBRAE, AgriFuture Hub, São Francisco Valley
-    |                 + fomento: FACEPE, Inova Caatinga, DINC
-[SOLUÇÕES]            4 cards — os 2 do Cultiva.ai com borda de destaque
-    |
-[CULTIVA.AI GESTÃO]   Split: features + mockup de dashboard e captura por voz
-    |
-[CULTIVA.AI CONSULT.] Dark section, terminal de conversa (manejo / solo / cooperativa)
-    |
-[CULTIVA.GUARD]       Painel de pressão de adutora com anomalia detectada
-    |
-[SOB MEDIDA]          Casos de uso B2B + timeline "como trabalhamos"
-    |
-[SOBRE]               Pilares + linha do tempo da empresa (jul/2025 → jun/2026)
-    |
-[CTA + FORM]          "Vamos colocar inteligência na sua operação?"
-    |
+[HEADER]            Atuação · Metodologia · Parceria executora · Produtos · Quem somos · Vamos conversar
+[HERO]              "Software sob medida, com método do contato à entrega."
+                    + cartão "Metodologia BLW" (4 fases, 9 etapas)
+                    + faixa de prova: FACEPE · Inova Caatinga · INTECVASF · SEBRAE
+[ATUAÇÃO]           3 frentes: Projetos sob demanda · Parceira executora · Produtos próprios
+[METODOLOGIA]       4 fases, E0–E8 · exemplo do que sai da E3 (requisito fictício) · CTA
+[PARCERIA]          Startups com financiamento: 4 passos + credenciais do ecossistema (fundo claro)
+[PRODUTOS]          Cultiva.ai Gestão · Cultiva.ai Consultoria · Cultiva.Guard + tecnologias
+[QUEM SOMOS]        Texto, 2 pilares e linha do tempo
+[CONTATO]           Fundo violeta + formulário com campo de assunto
 [FOOTER]
 ```
 
-## 4. Componentes
-
 ```
 src/components/
-  Header.tsx          Nav fixa, glassmorphism; breakpoint lg (6 links)
-  Hero.tsx            Hero + formulário
-  Partners.tsx        Parceiros e apoiadores (substituiu TrustedBy com números fictícios)
-  Solutions.tsx       Grid das 4 soluções
-  CultivaAI.tsx       Cultiva.ai Gestão
-  AISection.tsx       Cultiva.ai Consultoria — terminal animado
-  GuardSection.tsx    Cultiva.Guard / SDPAH
-  AgroSolutions.tsx   Soluções sob medida para empresas do agro
-  About.tsx           Quem somos + trajetória
-  CTAForm.tsx         CTA final
-  ContactForm.tsx     Formulário reutilizável (WhatsApp + Google Sheets)
+  Header.tsx        Nav fixa; menu mobile fora do <header> (backdrop-blur quebra position:fixed)
+  Hero.tsx          Entrada única ao carregar (CSS, classe .enter)
+  Atuacao.tsx       3 frentes
+  Metodologia.tsx   Fases + linha que desenha uma vez + exemplo de especificação
+  Parceria.tsx      Parceira executora + credenciais
+  Produtos.tsx      Produtos próprios
+  QuemSomos.tsx     Empresa e trajetória
+  Contato.tsx       Seção final
+  ContactForm.tsx   Formulário (WhatsApp + Google Sheets + RD Station)
+  BlwLogo.tsx       Logo, símbolo e padrão
+  CookieConsent.tsx Banner próprio (LGPD)
   Footer.tsx
+src/data/methodology.ts   Fases e etapas (usado no hero e na seção)
 ```
 
-Removidos na v2: `WebMobile`, `DesignSection`, `DataAgtech`, `FiscalConsulting`,
-`TrustedBy`, `AnimatedCounter`, `Testimonials`, `Services`.
+Removidos na v3: `Partners`, `Solutions`, `CultivaAI`, `AISection`, `GuardSection`,
+`AgroSolutions`, `About`, `CTAForm`, `ThemeToggle`, `ThemeContext` e o logo da marca antiga.
+Ficam no histórico do git (commit `8b07ce4`).
 
-## 5. Padrões de animação
+## 4. Movimento
 
-| Tipo | Como | Onde |
-|------|------|------|
-| Scroll reveal | framer-motion `whileInView` + `once: true` | todas as seções |
-| Stagger | delays incrementais por índice | grids e listas |
-| Typing | timeouts encadeados | terminal da Consultoria |
-| Barras de gráfico | `height` animada — **a coluna pai precisa de `h-full`** | Guard |
-| Parallax leve | `useScroll` + `useTransform` | mockup do Cultiva.ai |
-| Blobs | CSS keyframes | hero, CTA |
+Pouco e com propósito: entrada do hero (uma vez), linha da metodologia que desenha ao entrar
+na tela, e resposta ao ponteiro em botões e links (sobem 2px, sublinhado que desenha). Nada
+aparece só porque a página rolou. `prefers-reduced-motion` desliga tudo.
 
-> Armadilha conhecida: altura em `%` dentro de coluna flex sem altura definida resolve para 0.
-> Foi o bug que deixava o gráfico invisível na versão anterior.
+## 5. Integrações do formulário
 
-## 6. Integrações do formulário
-
-Um único componente (`ContactForm.tsx`) atende os dois formulários da página. Ao enviar,
-ele dispara três coisas — o WhatsApp é o caminho principal, os outros dois rodam em
-background e nunca bloqueiam o contato:
+Um único formulário (`ContactForm.tsx`). Ao enviar dispara, em background:
 
 | Destino | Quando roda | Falha silenciosa? |
 |---|---|---|
-| WhatsApp (`window.open`) | sempre | — é o caminho principal |
+| WhatsApp (`window.open`) | só se nenhum outro destino estiver configurado | — |
 | Google Sheets | se `VITE_GOOGLE_SCRIPT_URL` estiver setada | sim |
 | RD Station | se `VITE_RD_STATION_API_KEY` estiver setada | erro vai só para o console |
 
-### RD Station
+O assunto escolhido vai no começo da mensagem (`[Um projeto sob demanda] ...`) e no nome da
+conversão da RD Station: `site-blw-contato-<assunto>`.
 
-O loader rastreia visitas e grava o cookie `__trf.src` de origem de tráfego, mas **não captura
-formulários próprios** — por isso a conversão é enviada explicitamente em
-`src/services/rdStation.ts` via API de Conversões, incluindo o `traffic_source` lido daquele
-cookie (sem ele a RD atribui tudo como tráfego direto).
+| Conversão na RD | Quando |
+|---|---|
+| `site-blw-contato-conhecer-blw` | Conhecer a BLW e a metodologia |
+| `site-blw-contato-projeto-sob-demanda` | Projeto sob demanda |
+| `site-blw-contato-parceria-executora` | Parceria de execução para startup |
+| `site-blw-contato-outro` | Outro assunto |
 
-**O loader não está no `index.html`.** Ele é injetado por `src/services/consent.ts` só depois
-do aceite no banner de cookies — antes disso nenhum cookie de rastreamento é gravado. Quem
-recusa navega e envia o formulário normalmente; a conversão até chega na RD (o visitante
-digitou os próprios dados justamente para ser contatado), só que sem origem de tráfego.
+> Mudou em relação à v2: os identificadores `site-blw-hero` e `site-blw-cta-final` deixam de
+> existir (o formulário do hero saiu). Relatórios da RD que filtram por eles precisam ser
+> atualizados.
 
-Nomes de conversão por origem, para saber qual formulário converte:
+### RD Station e cookies
 
-- `site-blw-hero` — formulário do topo
-- `site-blw-cta-final` — formulário do fim da página
+O loader da RD **não está no `index.html`**. Ele é injetado por `src/services/consent.ts` só
+depois do aceite no banner de cookies. A conversão do formulário é enviada em
+`src/services/rdStation.ts` via API de Conversões, com o `traffic_source` lido do cookie
+`__trf.src` quando existe. **Não ativar o RDCookieControl no painel da RD** (apareceriam dois
+avisos).
 
-## 7. Pendências
+## 6. Pendências
 
-- [x] `VITE_RD_STATION_API_KEY` preenchida no `.env`.
-- [x] Banner de cookies próprio (`CookieConsent.tsx`), com bloqueio real do loader da RD
-      até o aceite. **Não ativar o RDCookieControl no painel da RD** — apareceriam dois avisos.
-- [x] WhatsApp unificado em `5587988685309`, lido de `VITE_WHATSAPP_NUMBER`.
-- [x] Redes sociais no footer: LinkedIn e Instagram (GitHub removido — não se aplica hoje).
-- [x] Link do app Cultiva.ai (`redirectcultiva.netlify.app`, redireciona por dispositivo)
-      na seção do produto e no footer.
-
+- [ ] Confirmar com o designer o hex do roxo tech e do branco (o PDF do guia imprime `#615afb`).
+- [ ] Revisar as descrições das etapas E0, E1, E2, E4, E5, E6 e E7 em `src/data/methodology.ts`.
+      Só E3 e E8 seguem o texto original; as outras são paráfrases do nome da etapa.
+- [ ] Revisar o texto de "parceira executora" (`Parceria.tsx`), em especial a frase sobre registro
+      rastreável ajudar na prestação de contas.
+- [ ] Confirmar o status de cada credencial (Parceira FACEPE, Aprovada no Inova Caatinga,
+      Incubada na INTECVASF, Apoio SEBRAE) e se os logos oficiais podem ser usados no lugar do texto.
+- [ ] Imagem de compartilhamento (`og:image`): ainda não existe.
+- [ ] Links legais (Privacidade / Termos / Cookies): saíram do rodapé por não terem destino.
+      Publicar a política de privacidade e voltar com os links.
+- [ ] Revisar o consentimento depois de decidido: a escolha fica em `localStorage`
+      (`blw-consentimento-cookies`) sem UI para trocar.
 - [ ] Opcional: criar o campo personalizado da mensagem na RD e setar
-      `VITE_RD_STATION_MESSAGE_FIELD` (ex.: `cf_mensagem`). Se apontar para um campo que não
-      existe, a RD rejeita a conversão inteira.
-- [ ] Links legais (Privacidade / Termos / Cookies) sem destino. A política de privacidade
-      passou a ser mais necessária agora que o banner de cookies cita "cookies de análise".
-- [ ] Não há como revisar o consentimento depois de decidido — a escolha fica no
-      localStorage (`blw-consentimento-cookies`) sem UI para trocar. Avaliar um link
-      "Preferências de cookies" no rodapé.
-- [ ] `logo-BLW.png` tem 835 kB — converter para WebP/SVG otimizado.
+      `VITE_RD_STATION_MESSAGE_FIELD` (ex.: `cf_mensagem`). Se o campo não existir, a RD rejeita
+      a conversão inteira.
 - [ ] Config do ESLint não casa com arquivos `.tsx` (lint não roda hoje).
+- [ ] `tailwind.config.js` é de uma versão antiga do Tailwind e não é lido pelo v4. Os tokens da
+      marca estão em `src/index.css` (`@theme`).
