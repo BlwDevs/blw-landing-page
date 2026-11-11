@@ -1,6 +1,6 @@
 import { MessageCircle, Mail, MapPin } from 'lucide-react';
 import ContactForm from './ContactForm';
-import { BrandPattern } from './BlwLogo';
+import bgContato from '../assets/backgrounds/bg-contato.webp';
 
 const contacts = [
   {
@@ -25,16 +25,22 @@ const contacts = [
 
 const Contato: React.FC = () => {
   return (
-    <section id="contato" className="section-pad relative isolate overflow-hidden bg-violet text-white">
-      <div aria-hidden="true" className="absolute inset-0 -z-10 text-white/[0.09]">
-        <BrandPattern />
-      </div>
+    <section id="contato" className="section-pad relative isolate overflow-hidden bg-ink text-white">
+      {/* Fundo: arte de linhas luminosas da marca */}
+      <img
+        src={bgContato}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 -z-10 h-full w-full object-cover object-[80%_50%]"
+      />
 
       <div className="wrap grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Contato</p>
+          <p className="eyebrow">Contato</p>
           <h2 className="h-section mt-4 text-white">Vamos conversar sobre o seu projeto?</h2>
-          <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/90">
+          <p className="lead mt-5 max-w-lg">
             Conte o que você precisa: um projeto sob demanda, uma parceria de execução ou só conhecer a BLW e a nossa
             metodologia. Conversamos sem compromisso.
           </p>
@@ -42,11 +48,11 @@ const Contato: React.FC = () => {
           <ul className="mt-10 space-y-5">
             {contacts.map(item => (
               <li key={item.label} className="flex items-center gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet/20 text-violet-300">
                   <item.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">{item.label}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/55">{item.label}</p>
                   {item.href ? (
                     <a
                       href={item.href}

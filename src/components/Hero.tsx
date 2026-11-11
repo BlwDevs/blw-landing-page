@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-import { BlwSymbol, BrandPattern } from './BlwLogo';
+import bgHero from '../assets/backgrounds/bg-hero.webp';
 import { phases } from '../data/methodology';
 
 /** Reconhecimentos e apoios reais da BLW. Rótulo + nome. */
@@ -13,42 +13,19 @@ const proof = [
 const Hero: React.FC = () => {
   return (
     <section id="topo" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-ink">
-      {/* Fundo: brilhos da marca + padrão de símbolos em contorno */}
-      <div
+      {/* Fundo: arte de linhas luminosas da marca. O degradê à esquerda garante a leitura do texto. */}
+      <img
+        src={bgHero}
+        alt=""
         aria-hidden="true"
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            'radial-gradient(60% 55% at 88% -5%, rgba(97,90,251,0.38) 0%, transparent 62%), radial-gradient(50% 45% at 0% 100%, rgba(161,71,184,0.22) 0%, transparent 65%)',
-        }}
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 -z-20 h-full w-full object-cover object-[78%_50%]"
       />
-      <svg
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 h-full w-full"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="xMidYMid slice"
-        fill="none"
-      >
-        <defs>
-          <linearGradient id="arc-a" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stopColor="#615afb" stopOpacity="0" />
-            <stop offset="0.55" stopColor="#615afb" stopOpacity="0.5" />
-            <stop offset="1" stopColor="#a7a3ff" stopOpacity="0.15" />
-          </linearGradient>
-        </defs>
-        <path d="M-80 760 C 330 520, 760 330, 1520 -40" stroke="url(#arc-a)" strokeWidth="1.5" />
-        <path d="M-80 830 C 380 610, 860 420, 1520 90" stroke="url(#arc-a)" strokeWidth="1" opacity="0.6" />
-      </svg>
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 text-white/[0.07]"
-        style={{
-          maskImage: 'radial-gradient(70% 70% at 70% 40%, #000 0%, transparent 75%)',
-          WebkitMaskImage: 'radial-gradient(70% 70% at 70% 40%, #000 0%, transparent 75%)',
-        }}
-      >
-        <BrandPattern />
-      </div>
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/90 via-ink/55 to-transparent sm:via-ink/40 lg:from-ink/30 lg:via-transparent"
+      />
 
       <div className="wrap flex flex-1 items-center pb-12 pt-32 lg:pt-28">
         <div className="grid w-full items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
@@ -81,10 +58,6 @@ const Hero: React.FC = () => {
 
           {/* A metodologia em uma olhada */}
           <div className="enter relative hidden md:block" style={{ '--i': 4 } as React.CSSProperties}>
-            <BlwSymbol
-              tone="on-dark"
-              className="pointer-events-none absolute -right-10 -top-14 hidden h-[118%] w-auto opacity-[0.16] lg:block"
-            />
             <div className="relative rounded-2xl border border-white/12 bg-night/75 p-5 backdrop-blur-md sm:p-7">
               <div className="flex items-baseline justify-between gap-4">
                 <p className="eyebrow">Metodologia BLW</p>

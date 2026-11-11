@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import { BlwLogo } from './BlwLogo';
+import { BlwLogo, BrandPattern } from './BlwLogo';
 import { CULTIVA_APP_URL } from '../constants';
 
 interface FooterLink {
@@ -23,6 +23,7 @@ const footerSections: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: 'Metodologia', href: '#metodologia' },
       { label: 'Quem somos', href: '#quem-somos' },
+      { label: 'Parceiros', href: '#parceiros' },
       { label: 'Contato', href: '#contato' },
     ],
   },
@@ -45,7 +46,18 @@ const Footer: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-ink">
+    <footer className="relative isolate overflow-hidden border-t border-white/10 bg-ink">
+      {/* Padrão de símbolos da marca, bem discreto */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 text-white/[0.05]"
+        style={{
+          maskImage: 'linear-gradient(to left, #000 0%, transparent 70%)',
+          WebkitMaskImage: 'linear-gradient(to left, #000 0%, transparent 70%)',
+        }}
+      >
+        <BrandPattern />
+      </div>
       <div className="wrap py-14 lg:py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr]">
           <div>

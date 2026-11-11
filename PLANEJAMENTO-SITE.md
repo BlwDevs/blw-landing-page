@@ -50,6 +50,11 @@ Fonte: `Guia - Identidade Visual BLW.pdf`.
   Versões permitidas: violeta + branco (fundo escuro), violeta + preto (fundo claro), tudo branco
   sobre violeta. Não distorcer, rotacionar, trocar cores nem usar sem contraste.
 - **Assinatura:** "Building Lines Worldwide", em caixa alta com espaçamento largo (footer).
+- **Fundos:** duas artes de linhas luminosas fornecidas pela BLW, em `src/assets/backgrounds/`.
+  `bg-hero.webp` no hero (com degradê à esquerda para o texto) e `bg-contato.webp` no contato.
+  O padrão de símbolos em contorno ficou só no rodapé, bem discreto.
+- **Logos de parceiros:** `src/assets/partners/`, sem alteração de cor. Logos com fundo branco
+  ficam em placa branca; o agri.future hub (letras brancas) fica em placa escura.
 - **Tema:** escuro por padrão, sem alternância claro/escuro. A seção de parceria é clara de
   propósito, para dar ritmo.
 
@@ -65,7 +70,8 @@ Fonte: `Guia - Identidade Visual BLW.pdf`.
 [PARCERIA]          Startups com financiamento: 4 passos + credenciais do ecossistema (fundo claro)
 [PRODUTOS]          Cultiva.ai Gestão · Cultiva.ai Consultoria · Cultiva.Guard + tecnologias
 [QUEM SOMOS]        Texto, 2 pilares e linha do tempo
-[CONTATO]           Fundo violeta + formulário com campo de assunto
+[PARCEIROS]         Logos dos 9 parceiros em placas (brancas; escura só para o agri.future hub)
+[CONTATO]           Arte de fundo da marca + formulário com campo de assunto
 [FOOTER]
 ```
 
@@ -78,6 +84,7 @@ src/components/
   Parceria.tsx      Parceira executora + credenciais
   Produtos.tsx      Produtos próprios
   QuemSomos.tsx     Empresa e trajetória
+  Parceiros.tsx     Logos dos parceiros, nas cores originais
   Contato.tsx       Seção final
   ContactForm.tsx   Formulário (WhatsApp + Google Sheets + RD Station)
   BlwLogo.tsx       Logo, símbolo e padrão
@@ -137,6 +144,14 @@ avisos).
       rastreável ajudar na prestação de contas.
 - [ ] Confirmar o status de cada credencial (Parceira FACEPE, Aprovada no Inova Caatinga,
       Incubada na INTECVASF, Apoio SEBRAE) e se os logos oficiais podem ser usados no lugar do texto.
+- [ ] **Logo da IAris Tech está cortado à direita** (o "s" e o "h" saem pela borda do arquivo).
+      Trocar pelo arquivo completo em `src/assets/partners/iaris-tech.png`.
+- [ ] Logos dos parceiros têm só 100 px de altura (ficam levemente suaves em telas retina).
+      Pedir SVG ou PNG maior, principalmente de NIT, Agrovel Salitre, Vallis e SEBRAE.
+- [ ] Faltam os logos de Inova Caatinga, INTECVASF e São Francisco Valley. Hoje aparecem só como
+      texto (hero e seção de parceria).
+- [ ] Confirmar o papel de cada parceiro da seção Parceiros (a página só diz "Parceiros da BLW")
+      e o nome exato de Vallis e NIT para o texto alternativo.
 - [ ] Imagem de compartilhamento (`og:image`): ainda não existe.
 - [ ] Links legais (Privacidade / Termos / Cookies): saíram do rodapé por não terem destino.
       Publicar a política de privacidade e voltar com os links.

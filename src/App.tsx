@@ -5,6 +5,7 @@ import Metodologia from './components/Metodologia';
 import Parceria from './components/Parceria';
 import Produtos from './components/Produtos';
 import QuemSomos from './components/QuemSomos';
+import Parceiros from './components/Parceiros';
 import Contato from './components/Contato';
 import Footer from './components/Footer';
 import CookieConsent from './components/CookieConsent';
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Parceria />
         <Produtos />
         <QuemSomos />
+        <Parceiros />
         <Contato />
       </main>
       <Footer />
