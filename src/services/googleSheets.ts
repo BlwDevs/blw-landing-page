@@ -56,19 +56,16 @@ class GoogleSheetsService {
         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
 
-      // Como o script retorna HTML para FormData, vamos considerar sucesso se status for 200
-      const textResponse = await response.text();
-      
-      // Se a resposta contém "Mensagem Enviada com Sucesso", consideramos sucesso
-      if (textResponse.includes('Mensagem Enviada com Sucesso') || textResponse.includes('Dados salvos com sucesso')) {
+      // O script responde JSON: { ok: true, ... } ou { ok: false, error }
+      const result = await response.json().catch(() => null);
+      if (result?.ok === true) {
         return {
           result: 'success',
           message: 'Dados enviados com sucesso!',
           row: 1
         };
-      } else {
-        throw new Error('Erro ao processar dados no servidor');
       }
+      throw new Error(result?.error || 'Erro ao processar dados no servidor');
 
     } catch (error) {
       throw new Error(

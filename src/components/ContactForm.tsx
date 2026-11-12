@@ -1,34 +1,24 @@
 import { useEffect, useRef, type ChangeEvent, type FormEvent } from 'react';
 import { useGoogleSheets, type FormSubmissionData } from '../services/googleSheets';
-import { useRdStation } from '../services/rdStation';
 
 /** Número comercial da BLW, no formato aceito pelo wa.me (DDI + DDD + número). */
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '5587988685309';
 
-/** Assuntos do formulário. O `value` também entra no nome da conversão na RD Station. */
+/** Assuntos do formulário. O rótulo escolhido vai na frente da mensagem, para quem lê a planilha e o e-mail. */
 export const INTERESTS = [
-  { value: 'conhecer-blw', label: 'Conhecer a BLW e a metodologia' },
+  { value: 'conhecer-blw', label: 'Conhecer as soluções da BLW' },
   { value: 'projeto-sob-demanda', label: 'Um projeto sob demanda' },
-  { value: 'parceria-executora', label: 'Parceria de execução para a minha startup' },
+  { value: 'parceria-executora', label: 'Desenvolver o produto da minha startup' },
   { value: 'outro', label: 'Outro assunto' },
 ] as const;
 
-interface ContactFormProps {
-  /**
-   * Prefixo do nome da conversão na RD Station. O assunto escolhido é somado a ele
-   * (ex.: 'site-blw-contato-parceria-executora') para saber o que cada lead procura.
-   */
-  conversionIdentifier?: string;
-}
-
 /**
  * Formulário no padrão do kit (form.form): o system.js valida no envio, põe o erro sob o campo e leva o foco ao
- * primeiro campo com problema. O envio em si é nosso (Google Sheets, RD Station, WhatsApp). O campo de status é
+ * primeiro campo com problema. O envio em si é nosso (Google Sheets e, como alternativa, WhatsApp). O campo de status é
  * escrito por referência, porque o system.js também escreve nele.
  */
-const ContactForm: React.FC<ContactFormProps> = ({ conversionIdentifier = 'site-blw-contato' }) => {
+const ContactForm: React.FC = () => {
   const { submitToSheets, isConfigured } = useGoogleSheets();
-  const { submitToRdStation, isConfigured: isRdConfigured } = useRdStation();
   const formRef = useRef<HTMLFormElement>(null);
   const statusRef = useRef<HTMLParagraphElement>(null);
   const interestRef = useRef<HTMLSelectElement>(null);
@@ -73,7 +63,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ conversionIdentifier = 'site-
     const name = String(data.get('name') || '').trim();
     const email = String(data.get('email') || '').trim();
     const phone = String(data.get('phone') || '').trim();
-    // O assunto vai junto da mensagem para quem lê a planilha e a RD
+    // O assunto vai junto da mensagem para quem lê a planilha e o e-mail
     const message = `[${interestLabel}] ${String(data.get('message') || '').trim()}`;
 
     const whatsappUrl = (): string => {
@@ -86,11 +76,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ conversionIdentifier = 'site-
       const submission: FormSubmissionData = { name, email, phone, message };
       envios.push(submitToSheets(submission));
     }
-    if (isRdConfigured) {
-      envios.push(submitToRdStation({ name, email, phone, message, identifier: `${conversionIdentifier}-${interest}` }));
-    }
 
-    // Sem nenhum destino configurado o formulário seria um beco sem saída:
+    // Sem a URL do script configurada o formulário seria um beco sem saída:
     // nesse caso cai no WhatsApp para o contato não se perder.
     if (envios.length === 0) {
       window.open(whatsappUrl(), '_blank');
@@ -108,10 +95,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ conversionIdentifier = 'site-
     });
 
     if (button) button.disabled = false;
-    // Só declara sucesso se o lead chegou em pelo menos um destino.
+    // Só declara sucesso se o contato foi gravado.
     if (resultados.some(r => r.status === 'fulfilled')) {
       form.reset();
-      say('Sua mensagem chegou. Respondemos em menos de 24 horas.');
+      say('Recebemos sua mensagem. Nossa equipe entrará em contato.');
     } else {
       say('Não conseguimos enviar agora. O que você escreveu continua aqui. Tente de novo ou use o WhatsApp.');
     }

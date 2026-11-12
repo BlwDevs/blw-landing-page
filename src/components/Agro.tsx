@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import { CULTIVA_SITE_URL } from '../constants';
 import chat from '../assets/app/cultiva-conversa.webp';
 import inicio from '../assets/app/cultiva-inicio.webp';
@@ -15,11 +14,11 @@ const products = [
  */
 const Agro: React.FC = () => {
   return (
-    <section className="section" id="agro" style={{ '--hm': 2 } as CSSProperties} aria-labelledby="agro-h">
+    <section className="section" id="agro" aria-labelledby="agro-h">
       <div className="wrap">
         <div className="section-head">
-          <h2 id="agro-h">Gestão de propriedade rural, feita no Vale do São Francisco</h2>
-          <p>O Cultiva.ai organiza safras, talhões, agenda, estoque e financeiro, com consultor digital por conversa.</p>
+          <h2 id="agro-h">Soluções que já saíram do papel</h2>
+          <p>Nosso portfólio reúne gestão rural, assistência por IA e monitoramento de irrigação. Produtos desenvolvidos a partir dos desafios do Vale do São Francisco.</p>
         </div>
         <div className="grid grid--top">
           <div className="span-6 stack-6">
@@ -39,57 +38,15 @@ const Agro: React.FC = () => {
             </div>
           </div>
 
-          <div className="span-5 start-8 bw-agro">
-            <ul className="bw-agro__photos">
-              <li>
-                <img
-                  src="/photos/rio-sao-francisco-500.jpg"
-                  alt="Barcos às margens do rio São Francisco, com aves no céu"
-                  width="500"
-                  height="331"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li>
-                <img
-                  src="/photos/irrigacao-500.jpg"
-                  alt="Técnico abrindo um registro de irrigação em uma lavoura"
-                  width="500"
-                  height="333"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li className="bw-agro__main">
-                <img
-                  src="/photos/mango.jpg"
-                  alt="Mangas verdes penduradas em uma mangueira"
-                  width="960"
-                  height="643"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="bw-agro__phones">
-                  <img
-                    src={chat}
-                    alt="Conversa do Cultiva.ai no WhatsApp com a recomendação de controle de mato antes da florada"
-                    width="444"
-                    height="450"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <img
-                    src={inicio}
-                    alt="Tela inicial do Cultiva.ai com as tarefas da semana, atividades, adubações e estoque"
-                    width="444"
-                    height="880"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </li>
-            </ul>
+          <div className="span-5 start-8 bw-product-screens">
+            <figure>
+              <img src={inicio} alt="Tela inicial do Cultiva.ai: tarefas, atividades, adubações e estoque" width="444" height="880" loading="lazy" decoding="async" />
+              <figcaption><strong>Cultiva.ai Gestão</strong>Rotina da propriedade em um só aplicativo.</figcaption>
+            </figure>
+            <figure>
+              <img src={chat} alt="Conversa com o consultor digital Cultiva.ai no WhatsApp" width="444" height="450" loading="lazy" decoding="async" />
+              <figcaption><strong>Cultiva.ai Consultoria</strong>Assistência por conversa no WhatsApp.</figcaption>
+            </figure>
           </div>
         </div>
       </div>

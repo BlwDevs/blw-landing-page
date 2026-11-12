@@ -14,10 +14,10 @@ const Sections: React.FC = () => {
       <Hero />
       <Statement />
       <Parcerias />
-      <Projetos />
-      <IA />
       <Agro />
+      <IA />
       <Empresa />
+      <Projetos />
       <Contato />
     </>
   );

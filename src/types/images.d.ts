@@ -27,8 +27,6 @@ declare module '*.webp' {
 interface ImportMetaEnv {
   readonly VITE_GOOGLE_SCRIPT_URL: string;
   readonly VITE_WHATSAPP_NUMBER: string;
-  readonly VITE_RD_STATION_API_KEY: string;
-  readonly VITE_RD_STATION_MESSAGE_FIELD: string;
 }
 
 interface ImportMeta {

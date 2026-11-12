@@ -56,12 +56,12 @@ logo abaixo do hero (sorteado de novo sem os efeitos de ponteiro, porque o hero 
 [AGRO]          Gestão de propriedade rural: fotos do agro + telas do Cultiva.ai + link para o site
 [EMPRESA]       Quem somos · gráfico de marcos que sobe (animado) · carrossel de parceiros
 [CONTATO]       Formulário com assunto · painel com a arte da marca, WhatsApp e e-mail
-[FECHAMENTO]    Chamada + links + créditos e cookies (arte de fundo)
+[FECHAMENTO]    Chamada + links + créditos (arte de fundo)
 ```
 
 ```
 src/components/  Header, Hero, Statement, Parcerias, Projetos, IA, Agro, Empresa, Contato,
-                 ContactForm, Footer, CookieConsent, BlwLogo
+                 ContactForm, Footer, BlwLogo
 src/data/methodology.ts   Fases e etapas (janela de Projetos)
 ```
 
@@ -100,12 +100,13 @@ node <skill>/scripts/gate.mjs
 - **Último run:** `GATE: PASS`. Layout sem achados em 1440, 1024, 820, 768 e 390. Build de produção:
   `perf.mjs` passa, exceto "imagens abaixo da dobra sem lazy" (o React cria as imagens depois do load).
 
-## 6. Formulário e cookies
+## 6. Formulário
 
-Igual à v3.1: `ContactForm.tsx` no padrão `form.form` do kit; envia para Google Sheets e RD Station
-(`site-blw-contato-<assunto>`) e cai no WhatsApp se nenhum destino estiver configurado. O consentimento de
-cookies é um bloco no rodapé (o kit não admite aviso fixo): o loader da RD só entra depois do aceite.
-**Não ativar o RDCookieControl no painel da RD.**
+`ContactForm.tsx` no padrão `form.form` do kit. Grava na planilha "Leads" do Google pelo Apps Script
+(`google-apps-script.js`), que também manda um e-mail de aviso (`EMAIL_AVISO`); passo a passo em
+`GOOGLE_SHEETS_SETUP.md`. Se `VITE_GOOGLE_SCRIPT_URL` não estiver configurada, o formulário abre o WhatsApp.
+A RD Station foi removida (conversão, loader e aviso de cookies), e o site não grava cookies de análise.
+Se algum rastreador voltar, o aviso de consentimento (LGPD) precisa voltar junto.
 
 ## 7. Pendências
 

@@ -26,3 +26,8 @@ dist-ssr
 # taste-skill: estado do gate e capturas de verificação
 .taste-skill/
 shots/
+
+# Variáveis de ambiente locais (URLs e chaves). O modelo versionado é o .env.example
+.env
+.env.*
+!.env.example

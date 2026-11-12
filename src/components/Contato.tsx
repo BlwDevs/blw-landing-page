@@ -11,10 +11,9 @@ const Contato: React.FC = () => {
     <section className="section" id="contato" style={{ '--hm': 2 } as CSSProperties} aria-labelledby="contato-h">
       <div className="wrap">
         <div className="section-head">
-          <h2 id="contato-h">Conversa com a BLW</h2>
+          <h2 id="contato-h">Qual desafio podemos resolver com você?</h2>
           <p>
-            Empresas, startups e produtores do Vale do São Francisco: conte o que você precisa. Respondemos em menos de
-            24 horas.
+            Conte sobre o seu negócio e o que você quer desenvolver ou melhorar. Vamos conversar sobre como a BLW pode ajudar.
           </p>
         </div>
         <div className="grid grid--top">

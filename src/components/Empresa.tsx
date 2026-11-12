@@ -11,7 +11,7 @@ import iarisTech from '../assets/partners/iaris-tech.png';
 
 /** Marcos reais da BLW. O gráfico sobe a cada marco; não há valores no eixo porque não há números a mostrar. */
 const milestones = [
-  { when: 'jul/2025', what: 'Fundação em Petrolina e entrada na incubadora INTECVASF' },
+  { when: 'jul/2025', what: 'Fundação em Pernambuco e entrada na incubadora INTECVASF' },
   { when: 'set/2025', what: 'Nasce a marca Cultiva.ai' },
   { when: 'nov/2025', what: 'Primeira validação com produtores do Vale' },
   { when: 'jan/2026', what: 'Aprovação no Inova Caatinga' },
@@ -73,10 +73,9 @@ const Empresa: React.FC = () => {
     <section className="section" id="empresa" style={{ '--hm': 2 } as CSSProperties} aria-labelledby="empresa-h">
       <div className="wrap">
         <div className="section-head">
-          <h2 id="empresa-h">Cinco engenheiros sócios, em Petrolina</h2>
+          <h2 id="empresa-h">Uma empresa de tecnologia com raízes no Vale</h2>
           <p>
-            A BLW Desenvolvimento é uma Empresa Simples de Inovação. Visitamos o cliente, ouvimos quem opera e escrevemos
-            código sobre o problema real.
+            A BLW Desenvolvimento foi fundada em Pernambuco por cinco engenheiros. Desenvolvemos produtos próprios e software sob medida, com atuação próxima às empresas e aos produtores da região.
           </p>
         </div>
 
@@ -118,6 +117,10 @@ const Empresa: React.FC = () => {
           </ol>
         </div>
 
+        <div className="bw-partner-heading" id="parcerias">
+          <h3>Parceiros e instituições que fazem parte da nossa trajetória</h3>
+          <p>Uma rede que conecta pesquisa, empreendedorismo e experiência no campo.</p>
+        </div>
         <div className={`bw-marquee${paused ? ' is-paused' : ''}`} role="group" aria-label="Parceiros da BLW">
           <div className="bw-marquee__view">
             <ul className="bw-marquee__track" data-edge-free>

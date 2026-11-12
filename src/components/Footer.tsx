@@ -1,6 +1,5 @@
 import { BlwLogo } from './BlwLogo';
 import { CULTIVA_SITE_URL } from '../constants';
-import CookieConsent from './CookieConsent';
 import bgContato from '../assets/backgrounds/bg-contato.webp';
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/blw-devs-bb94923b2/';
@@ -50,7 +49,7 @@ const Footer: React.FC = () => {
               <a className="nav__logo" href="#top" aria-label="BLW Devs, topo da página">
                 <BlwLogo tone="on-dark" className="nav__brand" />
               </a>
-              <p className="footer__lede">Desenvolvimento de software sob medida e parceria de execução para startups.</p>
+              <p className="footer__lede">Engenharia de software e inteligência artificial para empresas, startups e agronegócio. De Pernambuco para o seu negócio.</p>
               <div className="socials">
                 {socials.map(social => (
                   <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
@@ -65,10 +64,10 @@ const Footer: React.FC = () => {
               <h3>Atuação</h3>
               <ul>
                 <li>
-                  <a href="#parcerias">Parcerias com IA</a>
+                  <a href="#solucoes">Soluções sob medida</a>
                 </li>
                 <li>
-                  <a href="#projetos">Projetos sob demanda</a>
+                  <a href="#metodologia">Como trabalhamos</a>
                 </li>
                 <li>
                   <a href="#ia">IA e visão computacional</a>
@@ -87,7 +86,7 @@ const Footer: React.FC = () => {
                   <a href="#empresa">Quem somos</a>
                 </li>
                 <li>
-                  <a href="#agro">Agronegócio</a>
+                  <a href="#agro">Portfólio</a>
                 </li>
                 <li>
                   <a href="#contato">Contato</a>
@@ -98,14 +97,11 @@ const Footer: React.FC = () => {
           <div className="footer__legal">
             <span>&copy; {year} BLW Desenvolvimento</span>
             <details className="credits">
-              <summary>Fotografias via Wikimedia Commons e USDA; logotipos são marcas de seus proprietários</summary>
+              <summary>Créditos de marca e imagens</summary>
               <p>
-                Mangas: B.navez, CC BY-SA 3.0. Rio São Francisco: Sued Sheila Sarmento, CC BY 2.0. Irrigação: USDA, domínio
-                público. Logotipos de parceiros com as cores originais. Ícones de Flutter, Go e PostgreSQL: SVG Logos, de
-                Gil Barbara (CC0).
+                Telas do Cultiva.ai e identidade visual da BLW. Logotipos de parceiros são marcas de seus respectivos proprietários.
               </p>
             </details>
-            <CookieConsent />
           </div>
         </div>
       </div>

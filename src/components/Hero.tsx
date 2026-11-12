@@ -35,14 +35,14 @@ const Hero: React.FC = () => {
           <div className="grid hero__foot">
             <div className="span-6">
               <p className="hero__lead">
-                A BLW, de Petrolina, desenvolve software e IA sob medida para o agronegócio do Vale do São Francisco, empresas e startups. Somos 5 sócios engenheiros.
+                A BLW, de Pernambuco, desenvolve software e IA sob medida para o agronegócio do Vale do São Francisco, empresas e startups. Somos 5 sócios engenheiros.
               </p>
               <div className="btn-row">
                 <a className="btn btn--primary" href="#contato">
                   Falar com a BLW
                   <Arrow />
                 </a>
-                <a className="btn btn--secondary" href="#parcerias">
+                <a className="btn btn--secondary" href="#metodologia">
                   Ver como trabalhamos
                 </a>
               </div>
@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
             <dl className="hero__facts hero__facts--col span-5 start-8">
               <div>
                 <dt>Sede</dt>
-                <dd>Petrolina, PE</dd>
+                <dd>Pernambuco</dd>
               </div>
               <div>
                 <dt>Fomento</dt>
