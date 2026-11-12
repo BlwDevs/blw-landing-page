@@ -65,6 +65,23 @@ A planilha terá as seguintes colunas:
 ✅ **Responsivo**: Funciona em desktop e mobile
 ✅ **Tema escuro**: Suporte completo ao modo escuro
 
+## Aviso por e-mail
+
+A cada contato novo, o script grava a linha na planilha e manda um e-mail de aviso para `EMAIL_AVISO`
+(no topo de `google-apps-script.js`). O título traz o assunto escolhido e o nome, e o botão "Responder"
+já escreve para o visitante. Se o e-mail falhar, o contato continua salvo na planilha.
+
+Para ativar, na conta Google dona do script:
+
+1. Cole o `google-apps-script.js` atualizado no editor do Apps Script e salve.
+2. Troque `EMAIL_AVISO` pelo e-mail que deve receber os avisos (para mais de um, separe por vírgula).
+3. Execute `setupHeaders` uma vez e aceite a nova permissão de enviar e-mail. Sem esse aceite, o envio falha.
+4. "Implantar" > "Gerenciar implantações" > lápis > Versão: "Nova versão" > "Implantar".
+   A URL continua a mesma, então o `.env` não muda. Sem a nova versão, o site segue usando o script antigo.
+5. Envie um contato de teste pelo site e confira a planilha e a caixa de entrada (veja também o spam).
+
+Limite do Gmail comum: 100 e-mails por dia pelo Apps Script.
+
 ## Solução de Problemas
 
 ### Erro de CORS

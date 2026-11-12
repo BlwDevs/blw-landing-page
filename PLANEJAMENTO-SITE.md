@@ -1,167 +1,129 @@
-# BLW — Planejamento da Landing Page (v2 · posicionamento AgTech)
+# BLW — Planejamento da Landing Page (v3.2 · rodada 2: proposta comercial, agro e IA)
 
-> Atualizado em 2026-07-22. Substitui a versão anterior, que posicionava a BLW como
-> software house generalista (Web & Mobile, Design, Fiscal). Base: `business-workspace/trabalho/2026-07-canvas/canvas-blw-v2.md`
-> e `canvas-cultiva-ai-v2.md`.
+> Atualizado em 2026-11-11. A página é da **empresa BLW Devs**: capta projetos sob demanda, parcerias de
+> execução com startups financiadas e produtores e empresas do Vale do São Francisco. A metodologia
+> sustenta a execução, mas **não é mais o assunto da página** (na rodada 1 ela ocupava o hero e uma seção
+> de duas telas). Base: Guia de Identidade Visual BLW, material interno da metodologia (E0–E8) e taste-skill 2.5.1.
 
 ## 1. Posicionamento
 
-**Categoria:** casa de produtos de IA para o agronegócio, nascida no Vale do São Francisco.
+**Frase do hero:** "IA e software para [empresas. / startups. / agronegócio.]", com a última palavra viva.
 
-**Público desta página (vitrine institucional — não é canal de aquisição de produtor):**
-cooperativas e associações, distritos de irrigação e concessionárias, empresas do agro,
-parceiros institucionais e bancas de edital. A aquisição de produtor acontece por venda
-fundador, indicação e WhatsApp — ver canvas do Cultiva.ai.
+**Quem a página quer atrair:** (1) startups com edital, aceleração ou investimento; (2) o agronegócio do
+Vale do São Francisco; (3) empresas tradicionais com um projeto de software ou de IA.
 
-**Hierarquia das soluções (não estão em pé de igualdade):**
+**Ação única:** "Falar com a BLW" (formulário, WhatsApp ou e-mail). O formulário tem um campo de assunto;
+links da página pré-selecionam o assunto (`data-interesse`).
 
-| Solução | Papel na página |
-|---|---|
-| Cultiva.ai Gestão | Produto principal — seção dedicada com mockup do app |
-| Cultiva.ai Consultoria | Diferencial — seção dedicada com terminal de conversa |
-| Cultiva.Guard (SDPAH) | Prova técnica e piloto DINC — não vendido como produto pronto |
-| Soluções sob medida | Porta B2B para cooperativas e empresas do agro |
+**Honestidade:** nada de métrica ou cliente inventado. Credenciais: parceira FACEPE, aprovada no Inova
+Caatinga, incubada na INTECVASF, apoio SEBRAE, e os 9 logos de parceiros enviados pela BLW.
 
-**Regra de honestidade:** nada de métricas inventadas (projetos entregues, clientes, acurácia
-de modelo). A BLW é pré-receita; a prova social vem dos parceiros reais e do piloto DINC.
+**Confidencialidade:** a apresentação de especificação feita para um cliente (E3) é confidencial. Foi usada
+só para entender a metodologia. Nada dela entra na página; as janelas de interface são fictícias.
 
-## 2. Identidade Visual
+## 2. Identidade visual
 
-### Paleta
+Fonte: `Guia - Identidade Visual BLW.pdf`. A marca é o cliente: violeta `#615afb` e Asap passam por cima das
+regras de paleta e fonte do taste-skill (`start.mjs brand`).
 
-| Uso | Hex | Variável |
-|-----|-----|----------|
-| Verde agro (ação primária, Cultiva.ai Gestão) | `#10b981` | `--blw-accent-emerald` |
-| Azul BLW (marca, soluções sob medida) | `#0d80f2` | `--blw-blue` |
-| Roxo (IA / Consultoria) | `#8b5cf6` | `--blw-accent-violet` |
-| Ciano (água / Cultiva.Guard) | `#06b6d4` | `--blw-accent-cyan` |
-| Âmbar (alerta / anomalia) | `#f59e0b` | `--blw-accent-amber` |
-| Fundo dark | `#0a0d12` | `--blw-dark` |
+- **Tipografia:** Asap 400 e 500, com eixo de largura (`wdth`) para as letras do hero. Títulos em 500.
+- **Logo:** vetores em `src/assets/brand/paths.ts` (`BlwLogo`). Não distorcer nem trocar cores.
+- **Artes de fundo (enviadas pela BLW, em `src/assets/backgrounds/`):** `bg-contato.webp` no hero e no
+  fechamento; `bg-hero.webp` no painel de atalhos do contato.
+- **Chão aceso dos painéis:** violeta-noite `#1d1b4e` (tokens `--ground-*` no `index.html`).
+- **Logos de parceiros:** `src/assets/partners/`, cores originais, numa faixa branca; o agri.future hub
+  (letras brancas) ganha uma pílula escura.
+- **Telas do Cultiva.ai:** `src/assets/app/`, recortadas (sem barra de status nem teclado).
 
-O verde substituiu o azul como cor de ação primária (CTAs do header, hero, formulário) —
-é o que ancora a leitura "agro" antes mesmo do texto. O azul permanece como cor da marca.
+## 3. Como a página é montada (taste-skill)
 
-Gradiente `.gradient-text-agro` (verde → teal → azul) para as palavras de destaque.
+Tipo software. **Deal:** nav `nav-mega`, footer `footer-dark`, close `close-type`, botões `solid`.
+**Hero:** `word` (palavra viva). O deal sorteou `triptych`, que não serve ao pedido de uma frase só; a `word`
+é o hero que o próprio skill reserva para "uma palavra que troca". **Momento:** `word-highlight` na frase
+logo abaixo do hero (sorteado de novo sem os efeitos de ponteiro, porque o hero já tem o seu).
 
-### Tipografia
-- Títulos: **Space Grotesk** — utilitário `font-display` (token `--font-display` no `@theme`).
-  Substituiu a Syne, que era display demais e prejudicava a leitura de headlines longos.
-- Corpo: **DM Sans**
-
-> A Space Grotesk vai só até o peso **700**. Os títulos usam `font-bold`, não `font-extrabold`,
-> e o CSS aplica `font-synthesis-weight: none` para nenhum navegador forjar peso acima disso.
-
-### Contato
-- WhatsApp exibido: +55 87 98868-5309 · e-mail: blwdevs@gmail.com
-- Sede: Petrolina/PE — Vale do São Francisco
-
-## 3. Arquitetura da página
+- **Kit:** `public/assets/` é cópia do kit. **Não editar** (o gate acusa `kit-edited`). `src/kit.ts` carrega
+  `system.js`, `layout.js` e `motion.js` como `<script type="module">` depois que o React desenha.
+- **Raízes do React:** `src/main.tsx` monta `header#nav-root`, `main#top` e `footer#closing-root`.
+- **CSS de página:** `src/index.css`, só o que mora dentro dos visuais.
 
 ```
-[HEADER]              Início · Soluções · Cultiva.ai · Sobre · Parceiros · Contato
-    |
-[HERO + FORM]         "Inteligência artificial para o agro decidir melhor"
-    |                 (palavra rotativa: decidir melhor / produzir mais / perder menos)
-[PARCEIROS]           INTECVASF, SEBRAE, AgriFuture Hub, São Francisco Valley
-    |                 + fomento: FACEPE, Inova Caatinga, DINC
-[SOLUÇÕES]            4 cards — os 2 do Cultiva.ai com borda de destaque
-    |
-[CULTIVA.AI GESTÃO]   Split: features + mockup de dashboard e captura por voz
-    |
-[CULTIVA.AI CONSULT.] Dark section, terminal de conversa (manejo / solo / cooperativa)
-    |
-[CULTIVA.GUARD]       Painel de pressão de adutora com anomalia detectada
-    |
-[SOB MEDIDA]          Casos de uso B2B + timeline "como trabalhamos"
-    |
-[SOBRE]               Pilares + linha do tempo da empresa (jul/2025 → jun/2026)
-    |
-[CTA + FORM]          "Vamos colocar inteligência na sua operação?"
-    |
-[FOOTER]
+[HERO]          "IA e software para empresas / startups / agronegócio" + fatos (sede, FACEPE, Inova Caatinga, Cultiva.ai)
+[FRASE]         word-highlight: desenvolvemos com quem opera (campo, empresa, startup)
+[PARCERIAS]     3 formatos de parceria com IA: startups · agronegócio · empresas
+[PROJETOS]      Projetos sob demanda + janela da metodologia (as 9 etapas, sem detalhe)
+[IA]            IA e visão computacional: visão, agentes, previsão/anomalias, voz
+[AGRO]          Gestão de propriedade rural: fotos do agro + telas do Cultiva.ai + link para o site
+[EMPRESA]       Quem somos · gráfico de marcos que sobe (animado) · carrossel de parceiros
+[CONTATO]       Formulário com assunto · painel com a arte da marca, WhatsApp e e-mail
+[FECHAMENTO]    Chamada + links + créditos (arte de fundo)
 ```
 
-## 4. Componentes
-
 ```
-src/components/
-  Header.tsx          Nav fixa, glassmorphism; breakpoint lg (6 links)
-  Hero.tsx            Hero + formulário
-  Partners.tsx        Parceiros e apoiadores (substituiu TrustedBy com números fictícios)
-  Solutions.tsx       Grid das 4 soluções
-  CultivaAI.tsx       Cultiva.ai Gestão
-  AISection.tsx       Cultiva.ai Consultoria — terminal animado
-  GuardSection.tsx    Cultiva.Guard / SDPAH
-  AgroSolutions.tsx   Soluções sob medida para empresas do agro
-  About.tsx           Quem somos + trajetória
-  CTAForm.tsx         CTA final
-  ContactForm.tsx     Formulário reutilizável (WhatsApp + Google Sheets)
-  Footer.tsx
+src/components/  Header, Hero, Statement, Parcerias, Projetos, IA, Agro, Empresa, Contato,
+                 ContactForm, Footer, BlwLogo
+src/data/methodology.ts   Fases e etapas (janela de Projetos)
 ```
 
-Removidos na v2: `WebMobile`, `DesignSection`, `DataAgtech`, `FiscalConsulting`,
-`TrustedBy`, `AnimatedCounter`, `Testimonials`, `Services`.
+Removidos na rodada 2: `Atuacao`, `Metodologia` (pinned-chapters), `Parceria`, `Produtos`, `QuemSomos`.
 
-## 5. Padrões de animação
+## 4. Animações
 
-| Tipo | Como | Onde |
-|------|------|------|
-| Scroll reveal | framer-motion `whileInView` + `once: true` | todas as seções |
-| Stagger | delays incrementais por índice | grids e listas |
-| Typing | timeouts encadeados | terminal da Consultoria |
-| Barras de gráfico | `height` animada — **a coluna pai precisa de `h-full`** | Guard |
-| Parallax leve | `useScroll` + `useTransform` | mockup do Cultiva.ai |
-| Blobs | CSS keyframes | hero, CTA |
+- **Hero:** a palavra troca a cada 2 s por duas rodadas, descansa e volta a tocar quando o ponteiro entra no
+  título (`data-ly-word`, do kit); as letras perto do ponteiro mudam de largura (`data-ly-letters="wdth"`).
+- **Frase:** acende palavra por palavra ao cruzar o meio da tela (momento `word-highlight`).
+- **Marcos:** gráfico em degraus no violeta da marca. Um ciclo de 3,2 s (`--m-cycle`): a linha se desenha,
+  cada nó acende e o quadro final descansa antes de recomeçar. Dentro de `[data-m-loop]`: o kit pausa fora da
+  tela, reinicia com o ponteiro, põe o botão de pausa e mostra o quadro final no celular e sem movimento.
+- **Carrossel de parceiros:** avança um logo a cada 3 s (5 por vez no desktop, 3 no tablet), pausa com o
+  ponteiro, com o foco e pelo botão. No celular e sem movimento vira uma grade parada.
+- **Linhas da marca:** as artes entram como fundo do hero, do painel de contato e do fechamento. Ainda não
+  há animação das linhas em si (ver pendências).
 
-> Armadilha conhecida: altura em `%` dentro de coluna flex sem altura definida resolve para 0.
-> Foi o bug que deixava o gráfico invisível na versão anterior.
+## 5. Verificação (gate)
 
-## 6. Integrações do formulário
+```bash
+# com `npm run dev` rodando, na raiz do projeto:
+node <skill>/scripts/gate.mjs --start http://localhost:5173/ --new --kind software --category "<categoria>" --primary "Falar com a BLW"
+node <skill>/scripts/gate.mjs
+```
 
-Um único componente (`ContactForm.tsx`) atende os dois formulários da página. Ao enviar,
-ele dispara três coisas — o WhatsApp é o caminho principal, os outros dois rodam em
-background e nunca bloqueiam o contato:
+- **Categoria:** a lista de substantivos que os títulos usam (o checador só conhece substantivos em inglês).
+  Ver o `--category` em uso: `software e IA sob medida: parcerias, projetos, sistemas, aplicativos, produtos,
+  startups, agronegócio, propriedade rural, gestão, inteligência artificial, visão computacional, metodologia,
+  empresa, empresas, engenheiros, conversa, parceiros, campo, adutoras, falhas`.
+- **Waivers (2 de 5), em `.taste-skill/waivers.json` (não vai para o git):**
+  1. `phone-number`: o link do WhatsApp comercial da BLW (canal principal).
+  2. `row-lines`: o carrossel horizontal de parceiros, pedido pelo cliente. O kit proíbe carrossel e faixa
+     que passa atrás de uma janela; o resto das regras de carrossel passa porque cada logo ocupa uma fatia
+     fixa e a faixa para sempre alinhada à fatia.
+- **Último run:** `GATE: PASS`. Layout sem achados em 1440, 1024, 820, 768 e 390. Build de produção:
+  `perf.mjs` passa, exceto "imagens abaixo da dobra sem lazy" (o React cria as imagens depois do load).
 
-| Destino | Quando roda | Falha silenciosa? |
-|---|---|---|
-| WhatsApp (`window.open`) | sempre | — é o caminho principal |
-| Google Sheets | se `VITE_GOOGLE_SCRIPT_URL` estiver setada | sim |
-| RD Station | se `VITE_RD_STATION_API_KEY` estiver setada | erro vai só para o console |
+## 6. Formulário
 
-### RD Station
-
-O loader rastreia visitas e grava o cookie `__trf.src` de origem de tráfego, mas **não captura
-formulários próprios** — por isso a conversão é enviada explicitamente em
-`src/services/rdStation.ts` via API de Conversões, incluindo o `traffic_source` lido daquele
-cookie (sem ele a RD atribui tudo como tráfego direto).
-
-**O loader não está no `index.html`.** Ele é injetado por `src/services/consent.ts` só depois
-do aceite no banner de cookies — antes disso nenhum cookie de rastreamento é gravado. Quem
-recusa navega e envia o formulário normalmente; a conversão até chega na RD (o visitante
-digitou os próprios dados justamente para ser contatado), só que sem origem de tráfego.
-
-Nomes de conversão por origem, para saber qual formulário converte:
-
-- `site-blw-hero` — formulário do topo
-- `site-blw-cta-final` — formulário do fim da página
+`ContactForm.tsx` no padrão `form.form` do kit. Grava na planilha "Leads" do Google pelo Apps Script
+(`google-apps-script.js`), que também manda um e-mail de aviso (`EMAIL_AVISO`); passo a passo em
+`GOOGLE_SHEETS_SETUP.md`. Se `VITE_GOOGLE_SCRIPT_URL` não estiver configurada, o formulário abre o WhatsApp.
+A RD Station foi removida (conversão, loader e aviso de cookies), e o site não grava cookies de análise.
+Se algum rastreador voltar, o aviso de consentimento (LGPD) precisa voltar junto.
 
 ## 7. Pendências
 
-- [x] `VITE_RD_STATION_API_KEY` preenchida no `.env`.
-- [x] Banner de cookies próprio (`CookieConsent.tsx`), com bloqueio real do loader da RD
-      até o aceite. **Não ativar o RDCookieControl no painel da RD** — apareceriam dois avisos.
-- [x] WhatsApp unificado em `5587988685309`, lido de `VITE_WHATSAPP_NUMBER`.
-- [x] Redes sociais no footer: LinkedIn e Instagram (GitHub removido — não se aplica hoje).
-- [x] Link do app Cultiva.ai (`redirectcultiva.netlify.app`, redireciona por dispositivo)
-      na seção do produto e no footer.
-
-- [ ] Opcional: criar o campo personalizado da mensagem na RD e setar
-      `VITE_RD_STATION_MESSAGE_FIELD` (ex.: `cf_mensagem`). Se apontar para um campo que não
-      existe, a RD rejeita a conversão inteira.
-- [ ] Links legais (Privacidade / Termos / Cookies) sem destino. A política de privacidade
-      passou a ser mais necessária agora que o banner de cookies cita "cookies de análise".
-- [ ] Não há como revisar o consentimento depois de decidido — a escolha fica no
-      localStorage (`blw-consentimento-cookies`) sem UI para trocar. Avaliar um link
-      "Preferências de cookies" no rodapé.
-- [ ] `logo-BLW.png` tem 835 kB — converter para WebP/SVG otimizado.
-- [ ] Config do ESLint não casa com arquivos `.tsx` (lint não roda hoje).
+- [ ] **Vídeos do agro:** a mensagem citava "videozinhos", mas nenhum arquivo chegou. Se mandar, a seção Agro
+      pode ganhar um quadro de vídeo (o kit prevê um quadro com poster, sem som e com botão de pausa).
+- [ ] **Fotos do agro são provisórias** (Wikimedia Commons e USDA; créditos no rodapé): mangas de B.navez,
+      Rio São Francisco de Sued Sheila Sarmento, irrigação do USDA. Trocar por fotos da BLW ou de clientes do
+      Vale (mangas e uvas irrigadas de Petrolina e Juazeiro).
+- [ ] **Animação das linhas da marca:** hoje as artes são fundo estático. Dá para desenhar as linhas com
+      `stroke-dashoffset` (uma vez, na entrada do hero) ou trazer o momento `line-carries-colour` do kit.
+- [ ] Logo da IAris Tech está cortado à direita no arquivo enviado. Faltam logos de Inova Caatinga,
+      INTECVASF e São Francisco Valley; os enviados têm 100 px de altura.
+- [ ] Hex do roxo tech e do branco no PDF do guia (imprime `#615afb` três vezes).
+- [ ] Revisar os textos novos: formatos de parceria, "Automação com IA", as quatro linhas de IA (vieram do
+      site anterior) e os marcos do gráfico (vieram da trajetória anterior).
+- [ ] CNPJ, telefone e e-mail impressos saíram do rodapé (regra do skill). Decidir se voltam.
+- [ ] `og:image` aponta para `/share.jpg` (relativo): trocar por URL absoluta e ativar o `canonical` com o
+      domínio. O link "Baixar o app Cultiva.ai" (lojas) saiu do rodapé; hoje só há o link para o site.
+- [ ] Links legais (Privacidade / Termos): as páginas não existem.
+- [ ] Limpeza: `framer-motion`, `lucide-react` e o Tailwind não são mais usados.
